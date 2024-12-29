@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\RiderProjects\\Final Project\\Final Project\\Final Project.csproj": {}
+    "C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\Final Project.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\RiderProjects\\Final Project\\Final Project\\Final Project.csproj": {
+    "C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\Final Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\RiderProjects\\Final Project\\Final Project\\Final Project.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\Final Project.csproj",
         "projectName": "Final Project",
-        "projectPath": "C:\\Users\\USER\\RiderProjects\\Final Project\\Final Project\\Final Project.csproj",
+        "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\Final Project.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\RiderProjects\\Final Project\\Final Project\\obj\\",
+        "outputPath": "C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config"
