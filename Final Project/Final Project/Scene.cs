@@ -9,20 +9,24 @@ public enum Direction
 
 public abstract class Scene
 {
-	//interactive scene in the game - either menu, game, or editor
-	// protected bool sceneFinished = false;
-	// protected bool cursorVisible;
-	//
-	// public void StartScene() // starts scene functionality
-	// {
-	// 	//initialization
-	// 	InputHandler.scene = this;
-	// 	
-	// 	while (!sceneFinished)
-	// 	{
-	// 		InputHandler.Input(Console.ReadKey(true));
-	// 	}
-	// } 
+	 // interactive scene in the game - either menu, game, or level editor
+	 protected bool sceneFinished = false;
+	
+	public void StartScene() // starts scene functionality
+	{
+		//initialization
+		Initialize();
+		InputHandler.scene = this;
+
+		while (!sceneFinished)
+		{
+			InputHandler.Input(Console.ReadKey(true));
+		}
+		OnSceneEnd();
+	}
+
+	protected virtual void Initialize(){}
+	protected virtual void OnSceneEnd(){}
 	
 	public abstract void MoveCursor(Direction direction);
 

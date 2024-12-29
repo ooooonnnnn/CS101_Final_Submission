@@ -199,7 +199,7 @@ public static class Drawing
 		
 		//update clue highlights
 		//hide the cursor before moving it around all crazy style
-		// Console.CursorVisible = false;
+		Console.CursorVisible = false;
 		//de-highlight column clues
 		for (int i = 0; i < clueRowHeight; i++)
 		{

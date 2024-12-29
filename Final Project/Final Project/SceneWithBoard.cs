@@ -5,12 +5,13 @@ public abstract class SceneWithBoard : Scene
 	//base class for game and editor scenes
 	
 	//Game parameters
+	public string levelPath;
 	public int BoardWidth = 5, BoardHeight = 5; //must always be a multiple of 5 to keep the game readable, board can be rectangular. must be at least 5
 	protected int[][] RowClues, ColumnClues; //These are meant for board initialization only
 	protected CellState[,] Solution;
 	
 	//Cursor position when ingame
-	public static int GameCursorX = 0, GameCursorY = 0; //first cell is 0
+	public static int GameCursorX = 0, GameCursorY = 0; //cell indices are zero-based
 	
 	public static BoardState boardState;
 	
@@ -21,27 +22,31 @@ public abstract class SceneWithBoard : Scene
 	
 	//Flag for ending the game 
 	protected bool isSolved = false;
+	
+	//graphics
+	protected new bool cursorVisible = true;
 
-	public void RunBoardScene()
-	{
-		//screen initialization
-		Drawing.Initialize(boardState);
-		//updates everything on screen 
-		Drawing.Draw(boardState);
-		Drawing.UpdateCursor(GameCursorX, GameCursorY);
-		
-		// Game loop
-		while (true)
-		{
-			//take user input
-			InputHandler.Input(Console.ReadKey(true));
-			//solution is checked automatically from UpdateCell
-			if (isSolved)
-				return;
-		}
-		
-	}
 
+	// public void RunBoardScene()
+	// {
+	// 	//screen initialization
+	// 	Drawing.Initialize(boardState);
+	// 	//updates everything on screen 
+	// 	Drawing.Draw(boardState);
+	// 	Drawing.UpdateCursor(GameCursorX, GameCursorY);
+	// 	
+	// 	// Game loop
+	// 	while (true)
+	// 	{
+	// 		//take user input
+	// 		InputHandler.Input(Console.ReadKey(true));
+	// 		//solution is checked automatically from UpdateCell
+	// 		if (isSolved)
+	// 			return;
+	// 	}
+	// 	
+	// }
+	
 	protected abstract bool CheckSolution();
 	
 	protected void UpdateCell(CellState inputState)

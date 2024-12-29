@@ -7,6 +7,9 @@ public static class SceneManager
 	private static int nextSceneFlag = 0;
 	private const int flagStartMenu = 0, flagGame = 1, flagTutorial = 2, flagLevelEditorMenu = 3, flagEditor = 4;
 	
+	//menus write to this variable the selected option
+	public static Menu.MenuOption selectedOption;
+	
 	//to load a specific level
 	private static string levelPath;
 	
@@ -58,7 +61,8 @@ public static class SceneManager
 					title = "Sh'chor Uptor\n" +
 					        "q to select";
 					menu = new Menu(title,mainOpts);
-					switch (menu.RunMenu().text)
+					menu.StartScene();//this assigns a value to selectedOption
+					switch (selectedOption.text)
 					{
 						case "Test Level":
 							nextSceneFlag = flagGame;
@@ -74,15 +78,17 @@ public static class SceneManager
 					break;
 				
 				case flagGame:
-					Game game = new Game(levelPath);
-					game.RunBoardScene();
+					Game game = new Game();
+					game.levelPath = levelPath;
+					game.StartScene();
 					nextSceneFlag = flagStartMenu;
 					break;
 				
 				case flagLevelEditorMenu:
 					title = "Choose board size: (right/left arrows)";
 					menu = new Menu(title, levelEditorOpts);
-					switch (menu.RunMenu().text)
+					menu.StartScene();
+					switch (selectedOption.text)
 					{
 						case "Start":
 							nextSceneFlag = flagEditor;
@@ -100,9 +106,5 @@ public static class SceneManager
 					break;
 			}
 		}
-		
-		
-		Console.Clear();
-		Console.WriteLine("YOOOO");
 	}
 }

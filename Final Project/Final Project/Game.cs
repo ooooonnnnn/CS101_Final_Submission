@@ -4,14 +4,6 @@ public class Game : SceneWithBoard
 {
 	//Main game logic
 	
-	// //Input handler instance
-	// private InputHandler inputHandler;
-	//
-	// //Game parameters
-	// public static int BoardWidth = 5, BoardHeight = 5; //must always be a multiple of 5 to keep the game readable, board can be rectangular. must be at least 5
-	// private static int[][] RowClues, ColumnClues; //These are meant for board initialization only
-	// public static CellState[,] Solution;
-	
 	// //Cursor position when ingame
 	// public static int GameCursorX = 0, GameCursorY = 0; //first cell is 0
 	//
@@ -24,15 +16,17 @@ public class Game : SceneWithBoard
 	//
 	// //Flag for ending the game
 	// public static bool isSolved = false;
-	
-    public Game(string levelPath)
+
+    protected override void Initialize()
     {
-	    //Input initialization
-	    InputHandler.scene = this;
-	    
-	    //Data initialization
 	    ReadLevelFile(levelPath);
 	    boardState = new BoardState(BoardWidth, BoardHeight, RowClues, ColumnClues);
+	    //screen initialization
+	    Drawing.Initialize(boardState);
+	    //updates everything on screen 
+	    Drawing.Draw(boardState);
+	    Drawing.UpdateCursor(GameCursorX, GameCursorY);
+	    Console.CursorVisible = true;
     }
 
     protected override void OnUpdateCell()
@@ -165,6 +159,7 @@ public class Game : SceneWithBoard
 		    }
 	    }
 	    isSolved = true;
+	    sceneFinished = true;//this is temporary. I should end a state where the puzzle is solved but the scene is still ongoing
 	    return true;
     }
 

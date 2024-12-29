@@ -10,15 +10,12 @@ public class Menu : Scene
 	private int numTitleRows; //how much room should be saved for the title
 	
 	private int highlightedOption;
-	private bool clickFlag = false; //will become true when option is selected
 	
 	public Menu(string title, List<MenuOption> options)
 	{
-		//Initialize InputHandler
-		InputHandler.scene = this;
-		
 		//Initialize menu
 		menuOptions = options;
+		Console.CursorVisible = false;
 		
 		//display
 		Console.Clear();
@@ -30,16 +27,9 @@ public class Menu : Scene
 		}
 	}
 
-	public MenuOption RunMenu()
+	protected override void OnSceneEnd()
 	{
-		//starts menu functionality. returns the number of the selected option. Hide the cursor for the duration
-		Console.CursorVisible = false;
-		while (!clickFlag)
-		{
-			InputHandler.Input(Console.ReadKey(true));
-		}
-		Console.CursorVisible = true;
-		return menuOptions[highlightedOption];
+		SceneManager.selectedOption = menuOptions[highlightedOption];
 	}
 
 	private void WriteOption(int optionNum)
@@ -95,7 +85,7 @@ public class Menu : Scene
 
 	public override void Action1()
 	{
-		clickFlag = true;
+		sceneFinished = true;
 	}
 
 	public class MenuOption
