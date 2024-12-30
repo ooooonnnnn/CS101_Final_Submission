@@ -4,33 +4,17 @@ public class LevelEditor : SceneWithBoard
 {
 	//level creation tool
 	//parameters
-	private int boardWidth, boardHeight;
-	private BoardState boardState;
-	private int gameCursorX, gameCursorY;
 	private bool editing = true; //will be set to false when finished editing
-
-	public LevelEditor(int width, int height)
+	
+	protected override void Initialize()
 	{
-		//initialize input
-		InputHandler.scene = this;
-		
-		//initialize parameters
-		boardWidth = width;
-		boardHeight = height;
-		boardState = new BoardState(width, height, new int[height][], new int[width][]);
-
-		//initialize graphic
+		boardState = new BoardState(boardWidth, boardHeight);
+		//screen initialization
 		Drawing.Initialize(boardState);
+		//updates everything on screen 
 		Drawing.Draw(boardState);
-		Drawing.UpdateCursor(gameCursorX,gameCursorY);
-		
-		//take user input
-		while (true)
-		{
-			InputHandler.Input(Console.ReadKey(true));
-		}
-		
-		//save level or give up
+		Drawing.UpdateCursor(SceneWithBoard.gameCursorX, SceneWithBoard.gameCursorY);
+		Console.CursorVisible = true;
 	}
 
 	public void Start()
@@ -62,50 +46,24 @@ public class LevelEditor : SceneWithBoard
 		return false;
 	}
 
-	public override void MoveCursor(Direction direction)
-	{
-		switch (direction)
-		{
-			case Direction.Up:
-				if (gameCursorY > 0) gameCursorY--;
-				break;
-			case Direction.Down:
-				if (gameCursorY < boardHeight - 1) gameCursorY++;
-				break;
-			case Direction.Left:
-				if (gameCursorX > 0) gameCursorX--;
-				break;
-			case Direction.Right:
-				if (gameCursorX < boardWidth - 1) gameCursorX++;
-				break;
-		}
-		
-		Drawing.UpdateCursor(gameCursorX,gameCursorY);
-	}
-
-
-	public override void Action1()
-	{
-		
-	}
-
-	public override void Action2()
-	{
-		
-	}
-
-	public override void ActionShift1()
-	{
-		
-	}
-
-	public override void ActionShift2()
-	{
-		
-	}
-
-	public override void AnyKeyButArrow()
-	{
-		
-	}
+	// public override void MoveCursor(Direction direction)
+	// {
+	// 	switch (direction)
+	// 	{
+	// 		case Direction.Up:
+	// 			if (gameCursorY > 0) gameCursorY--;
+	// 			break;
+	// 		case Direction.Down:
+	// 			if (gameCursorY < boardHeight - 1) gameCursorY++;
+	// 			break;
+	// 		case Direction.Left:
+	// 			if (gameCursorX > 0) gameCursorX--;
+	// 			break;
+	// 		case Direction.Right:
+	// 			if (gameCursorX < boardWidth - 1) gameCursorX++;
+	// 			break;
+	// 	}
+	// 	
+	// 	Drawing.UpdateCursor(gameCursorX,gameCursorY);
+	// }
 }

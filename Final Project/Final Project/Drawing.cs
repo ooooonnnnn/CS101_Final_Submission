@@ -47,7 +47,7 @@ public static class Drawing
 			for (int j = 0; j < boardWidth; j++)
 			{
 				//check if this clue is in the same column as the highlighted cell
-				bool highlight = j == Game.GameCursorX;
+				bool highlight = j == Game.gameCursorX;
 				string clue;
 				try
 				{
@@ -71,7 +71,7 @@ public static class Drawing
 		//draw board line by line. draw clues first
 		for (int i = 0; i < boardHeight; i++)
 		{
-			bool highlight = i == Game.GameCursorY;
+			bool highlight = i == Game.gameCursorY;
 			//draw clues
 			//look for clues with index maxRowClues - 1 - j
 			for (int j = 0; j < maxRowClues; j++)
@@ -172,7 +172,7 @@ public static class Drawing
 		{
 			case CellState.Unknown:
 				//if the cell row is a multiple of 5 minus 1, unknown looks like "__"
-				if ((Game.GameCursorY + 1) % 5 == 0)
+				if ((Game.gameCursorY + 1) % 5 == 0)
 				{
 					newStringBase = hLine;
 				}

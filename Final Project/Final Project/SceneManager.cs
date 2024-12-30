@@ -100,7 +100,10 @@ public static class SceneManager
 					break;
 				
 				case flagEditor:
-					LevelEditor levelEditor = new LevelEditor(editorWidth, editorHeight);
+					LevelEditor levelEditor = new LevelEditor();
+					levelEditor.boardWidth = editorWidth;
+					levelEditor.boardHeight = editorHeight;
+					levelEditor.StartScene();
 					// levelEditor.RunBoardMenu();
 					nextSceneFlag = flagStartMenu;
 					break;

@@ -16,6 +16,16 @@ public class BoardState
 	
 	public BoardState(int width, int height, int[][] rowClues, int[][] columnClues)
 	{
+		Constructor(width, height, rowClues, columnClues);
+	}
+	
+	public BoardState(int width, int height)
+	{
+		Constructor(width, height, new int[width][], new int[height][]);
+	}
+
+	private void Constructor(int width, int height, int[][] rowClues, int[][] columnClues)
+	{
 		//check that both width and height are multiples of 5
 		if (!(width > 0 && (width % 5) == 0) || !(height > 0 && (height % 5) == 0))
 		{
@@ -33,6 +43,7 @@ public class BoardState
 		RowClues = rowClues;
 		ColumnClues = columnClues;
 	}
+
 }
 
 public enum CellState

@@ -20,12 +20,12 @@ public class Game : SceneWithBoard
     protected override void Initialize()
     {
 	    ReadLevelFile(levelPath);
-	    boardState = new BoardState(BoardWidth, BoardHeight, RowClues, ColumnClues);
+	    boardState = new BoardState(boardWidth, boardHeight, rowClues, columnClues);
 	    //screen initialization
 	    Drawing.Initialize(boardState);
 	    //updates everything on screen 
 	    Drawing.Draw(boardState);
-	    Drawing.UpdateCursor(GameCursorX, GameCursorY);
+	    Drawing.UpdateCursor(gameCursorX, gameCursorY);
 	    Console.CursorVisible = true;
     }
 
@@ -58,12 +58,12 @@ public class Game : SceneWithBoard
 	    List<List<CellState>> list = new List<List<CellState>>();
 	    list.Add(new List<CellState>());
 	    //Start tracking board width and height
-	    BoardWidth = 0;
+	    boardWidth = 0;
 	    bool trackWidth = true;
-	    BoardHeight = 1;
+	    boardHeight = 1;
 	    foreach (char c in str)
 	    {
-		    if (trackWidth) BoardWidth++;
+		    if (trackWidth) boardWidth++;
 		    switch (c)
 		    {
 			    case '1':
@@ -75,35 +75,35 @@ public class Game : SceneWithBoard
 			    case '\n':
 				    if (trackWidth)
 				    {
-					    BoardWidth--;
+					    boardWidth--;
 					    trackWidth = false;
 				    }
-				    BoardHeight++;
+				    boardHeight++;
 				    list.Add(new List<CellState>());
 				    break;
 		    }
 	    }
 	    
 	    //Convert from List<List<CellState>> to CellState[,] and assign to Solution
-	    Solution = new CellState[BoardWidth, BoardWidth];
-	    for (int i = 0; i < BoardWidth; i++)
+	    solution = new CellState[boardWidth, boardWidth];
+	    for (int i = 0; i < boardWidth; i++)
 	    {
-		    for (int j = 0; j < BoardHeight; j++)
+		    for (int j = 0; j < boardHeight; j++)
 		    {
-			    Solution[i, j] = list[j][i];
+			    solution[i, j] = list[j][i];
 		    }
 	    }
 	    
 	    //Calculate Clues
 	    //calculate column clues
-	    ColumnClues = new int[BoardWidth][];
-	    for (int i = 0; i < BoardWidth; i++)
+	    columnClues = new int[boardWidth][];
+	    for (int i = 0; i < boardWidth; i++)
 	    {
 		    List<int> newClues = new(); //running list of this columns clues (from end to beginning)
 		    int currentClue = 0; //keeps track of the latest parsed clue
-		    for (int j = BoardHeight-1; j >= 0; j--)
+		    for (int j = boardHeight-1; j >= 0; j--)
 		    {
-			    if (Solution[i,j] == CellState.Black)
+			    if (solution[i,j] == CellState.Black)
 			    {
 				    currentClue++;
 			    }
@@ -117,18 +117,18 @@ public class Game : SceneWithBoard
 		    {
 			    newClues.Add(currentClue);
 		    }
-		    ColumnClues[i] = newClues.ToArray();
+		    columnClues[i] = newClues.ToArray();
 	    }
 	    
 	    //calculate row clues
-	    RowClues = new int[BoardHeight][];
-	    for (int i = 0; i < BoardHeight; i++)
+	    rowClues = new int[boardHeight][];
+	    for (int i = 0; i < boardHeight; i++)
 	    {
 		    List<int> newClues = new(); //running list of this row's clues (from end to beginning)
 		    int currentClue = 0; //keeps track of the latest parsed clue
-		    for (int j = BoardWidth-1; j >= 0; j--)
+		    for (int j = boardWidth-1; j >= 0; j--)
 		    {
-			    if (Solution[j,i] == CellState.Black)
+			    if (solution[j,i] == CellState.Black)
 			    {
 				    currentClue++;
 			    }
@@ -142,17 +142,17 @@ public class Game : SceneWithBoard
 		    {
 			    newClues.Add(currentClue);
 		    }
-		    RowClues[i] = newClues.ToArray();
+		    rowClues[i] = newClues.ToArray();
 	    }
     }
 
     protected override bool CheckSolution()
     {
-	    for (int i = 0; i < BoardWidth; i++)
+	    for (int i = 0; i < boardWidth; i++)
 	    {
-		    for (int j = 0; j < BoardHeight; j++)
+		    for (int j = 0; j < boardHeight; j++)
 		    {
-			    if (boardState.Cells[i,j] == CellState.Black ^ Solution[i,j] == CellState.Black)
+			    if (boardState.Cells[i,j] == CellState.Black ^ solution[i,j] == CellState.Black)
 			    {
 				    return false;
 			    }
