@@ -40,6 +40,11 @@ public class LevelEditor : SceneWithBoard
 		sw.Close();
 	}
 
+	public override void Action2()
+	{
+		AnyKeyButArrow();//this will turn off soft marking
+	}
+
 	protected override bool CheckSolution()
 	{
 		//throw new NotImplementedException();
