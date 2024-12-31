@@ -16,7 +16,7 @@ public abstract class SceneWithBoard : Scene
 	public static BoardState boardState;
 	
 	//graphics
-	protected string message; //a message to be displayed while scene is active
+	protected string message; //a message to always be displayed while scene is active
 	protected int msgTop = 8, msgLeft = 3; //message coords relative to board top right corner
 	
 	//Soft marking
@@ -28,13 +28,13 @@ public abstract class SceneWithBoard : Scene
 			softMarking = value;
 			if (!value)
 			{
-				message = "";
+				Drawing.UpdateMessage(message,msgLeft,msgTop);
 			}
 			else
 			{
-				message = $"Continuous marking: {SoftMarkingMode.Item1.ToString()} -> {SoftMarkingMode.Item2.ToString()}";
+				string additional = $"Continuous marking: {SoftMarkingMode.Item1.ToString()} -> {SoftMarkingMode.Item2.ToString()}";
+				Drawing.UpdateMessage(message + additional,msgLeft,msgTop);
 			}
-			Drawing.UpdateMessage(message,msgLeft,msgTop);
 		}
 	}
 

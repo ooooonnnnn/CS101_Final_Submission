@@ -23,6 +23,7 @@ public class Game : SceneWithBoard
 	    boardState = new BoardState(boardWidth, boardHeight, rowClues, columnClues);
 	    //screen initialization
 	    Drawing.Initialize(boardState);
+	    message = "";
 	    //updates everything on screen 
 	    Drawing.Draw(boardState);
 	    Drawing.UpdateCursor(gameCursorX, gameCursorY);

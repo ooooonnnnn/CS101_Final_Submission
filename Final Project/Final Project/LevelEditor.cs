@@ -11,10 +11,12 @@ public class LevelEditor : SceneWithBoard
 		boardState = new BoardState(boardWidth, boardHeight);
 		//screen initialization
 		Drawing.Initialize(boardState);
+		message = $"({InputHandler.MarkDot}): check if solvable. ";
 		//updates everything on screen 
 		Drawing.Draw(boardState);
 		Drawing.UpdateCursor(SceneWithBoard.gameCursorX, SceneWithBoard.gameCursorY);
 		Console.CursorVisible = true;
+		Drawing.UpdateMessage(message,msgLeft,msgTop);
 	}
 
 	public void Start()

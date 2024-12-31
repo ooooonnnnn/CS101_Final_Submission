@@ -13,7 +13,7 @@ public static class InputHandler
 	private const ConsoleKey MoveLeft = ConsoleKey.LeftArrow;
 	private const ConsoleKey MoveRight = ConsoleKey.RightArrow;
 	private const ConsoleKey MarkBlack = ConsoleKey.Q;
-	private const ConsoleKey MarkDot = ConsoleKey.S; //not w anymore
+	public const ConsoleKey MarkDot = ConsoleKey.S; //not w anymore
 	
 	public static void Input(ConsoleKeyInfo keyInfo)
 	{
