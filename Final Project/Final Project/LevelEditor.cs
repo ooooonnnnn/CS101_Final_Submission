@@ -45,11 +45,19 @@ public class LevelEditor : SceneWithBoard
 	public override void Action2()
 	{
 		AnyKeyButArrow();//this will turn off soft marking
+		CheckSolution();
 	}
 
 	protected override bool CheckSolution()
 	{
-		//throw new NotImplementedException();
+		bool solvable = false;
+		/*
+			solving logic here
+		*/
+		if (solvable)
+		{
+			sceneFinished = true;
+		}
 		return false;
 	}
 }
