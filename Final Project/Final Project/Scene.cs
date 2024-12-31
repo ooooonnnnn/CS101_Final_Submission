@@ -18,6 +18,7 @@ public abstract class Scene
 		Initialize();
 		InputHandler.scene = this;
 
+		//take user input
 		while (!sceneFinished)
 		{
 			InputHandler.Input(Console.ReadKey(true));

@@ -15,37 +15,34 @@ public abstract class SceneWithBoard : Scene
 	
 	public static BoardState boardState;
 	
+	//graphics
+	protected string message; //a message to be displayed while scene is active
+	protected int msgTop = 8, msgLeft = 3; //message coords relative to board top right corner
+	
 	//Soft marking
-	protected bool SoftMarking = false;
+	private bool softMarking;
+	protected bool SoftMarking
+	{
+		get { return softMarking;}
+		set { 
+			softMarking = value;
+			if (!value)
+			{
+				message = "";
+			}
+			else
+			{
+				message = $"Continuous marking: {SoftMarkingMode.Item1.ToString()} -> {SoftMarkingMode.Item2.ToString()}";
+			}
+			Drawing.UpdateMessage(message,msgLeft,msgTop);
+		}
+	}
+
 	//only cells with the first state are changed into the second state
 	protected (CellState,CellState) SoftMarkingMode = (CellState.Unknown,CellState.Unknown);
 	
 	//Flag for ending the game 
 	protected bool isSolved = false;
-	
-	//graphics
-	protected new bool cursorVisible = true;
-
-
-	// public void RunBoardScene()
-	// {
-	// 	//screen initialization
-	// 	Drawing.Initialize(boardState);
-	// 	//updates everything on screen 
-	// 	Drawing.Draw(boardState);
-	// 	Drawing.UpdateCursor(GameCursorX, GameCursorY);
-	// 	
-	// 	// Game loop
-	// 	while (true)
-	// 	{
-	// 		//take user input
-	// 		InputHandler.Input(Console.ReadKey(true));
-	// 		//solution is checked automatically from UpdateCell
-	// 		if (isSolved)
-	// 			return;
-	// 	}
-	// 	
-	// }
 	
 	protected abstract bool CheckSolution();
 	
@@ -102,9 +99,9 @@ public abstract class SceneWithBoard : Scene
 
 	protected void StartSoftMarking(CellState targetState)
 	{
-		SoftMarking = true; 
 		SoftMarkingMode.Item1 = boardState.Cells[gameCursorX, gameCursorY]; 
 		SoftMarkingMode.Item2 = targetState == SoftMarkingMode.Item1 ? CellState.Unknown : targetState; 
+		SoftMarking = true; 
 		UpdateCell(targetState);
 	}
 	

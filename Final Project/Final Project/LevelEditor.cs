@@ -45,25 +45,4 @@ public class LevelEditor : SceneWithBoard
 		//throw new NotImplementedException();
 		return false;
 	}
-
-	// public override void MoveCursor(Direction direction)
-	// {
-	// 	switch (direction)
-	// 	{
-	// 		case Direction.Up:
-	// 			if (gameCursorY > 0) gameCursorY--;
-	// 			break;
-	// 		case Direction.Down:
-	// 			if (gameCursorY < boardHeight - 1) gameCursorY++;
-	// 			break;
-	// 		case Direction.Left:
-	// 			if (gameCursorX > 0) gameCursorX--;
-	// 			break;
-	// 		case Direction.Right:
-	// 			if (gameCursorX < boardWidth - 1) gameCursorX++;
-	// 			break;
-	// 	}
-	// 	
-	// 	Drawing.UpdateCursor(gameCursorX,gameCursorY);
-	// }
 }

@@ -48,5 +48,20 @@ public class BoardState
 
 public enum CellState
 {
-	Unknown, Dot, Black 
+	Unknown, Dot, Black
+}
+
+public static class Extensions
+{
+	public static string ToString(this CellState cellState)
+	{
+		switch (cellState)
+		{
+			case CellState.Unknown: return "Unknown";
+			case CellState.Dot: return "Dot";
+			case CellState.Black: return "Black";
+		}
+
+		return "";
+	}
 }

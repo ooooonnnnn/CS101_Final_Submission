@@ -6,7 +6,7 @@ public static class Drawing
 {
 	//This class handles drawing stuff on the screen
 	//The following symbols are used
-	private static string black = "@",
+	public static string black = "@",
 		empty = " ",
 		hLine = "_",
 		hLineBold = "=",
@@ -276,6 +276,27 @@ public static class Drawing
 	{
 		//places the cursor in a cell with coordinates column and row WITHOUT UPDATING graphics
 		Console.SetCursorPosition(1 + clueColWidth + cellWidth * column, 1 + clueRowHeight + row);
+	}
+
+	public static void UpdateMessage(string message, int msgLeft, int msgTop)
+	{
+		//updates the text of a message shown next to the game board
+		
+		//record cursor state to restore later
+		bool csrVis = Console.CursorVisible;
+		int csrLft = Console.CursorLeft;
+		int csrTop = Console.CursorTop;
+
+		Console.SetCursorPosition(clueColWidth + cellWidth * boardWidth + msgLeft,
+			clueRowHeight + msgTop);
+		Console.Write(message);
+		//clear the rest of the line
+		Console.Write(StrRepeat(" ",Console.BufferWidth - Console.CursorLeft));
+		
+		//restore cursor visibility
+		Console.CursorVisible = csrVis;
+		Console.CursorLeft = csrLft;
+		Console.CursorTop = csrTop;
 	}
 	
 	public static string StrRepeat(string str, int times)
