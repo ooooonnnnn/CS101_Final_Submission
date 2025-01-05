@@ -46,6 +46,60 @@ public abstract class SceneWithBoard : Scene
 	
 	protected abstract bool CheckSolution();
 	
+	protected void CalculateClues()
+	{
+		//calculate column clues
+		columnClues = new int[boardWidth][];
+		for (int i = 0; i < boardWidth; i++)
+		{
+			List<int> newClues = new(); //running list of this columns clues (from end to beginning)
+			int currentClue = 0; //keeps track of the latest parsed clue
+			for (int j = boardHeight-1; j >= 0; j--)
+			{
+				if (solution[i,j] == CellState.Black)
+				{
+					currentClue++;
+				}
+				else if (currentClue > 0)
+				{
+					newClues.Add(currentClue);
+					currentClue = 0;
+				}
+			}
+			if (currentClue > 0)
+			{
+				newClues.Add(currentClue);
+			}
+			columnClues[i] = newClues.ToArray();
+		}
+	    
+		//calculate row clues
+		rowClues = new int[boardHeight][];
+		for (int i = 0; i < boardHeight; i++)
+		{
+			List<int> newClues = new(); //running list of this row's clues (from end to beginning)
+			int currentClue = 0; //keeps track of the latest parsed clue
+			for (int j = boardWidth-1; j >= 0; j--)
+			{
+				if (solution[j,i] == CellState.Black)
+				{
+					currentClue++;
+				}
+				else if (currentClue > 0)
+				{
+					newClues.Add(currentClue);
+					currentClue = 0;
+				}
+			}
+			if (currentClue > 0)
+			{
+				newClues.Add(currentClue);
+			}
+			rowClues[i] = newClues.ToArray();
+		}
+	}
+
+	
 	protected void UpdateCell(CellState inputState)
 	{
 		/*sets the highlighted state according to its' current state and input state

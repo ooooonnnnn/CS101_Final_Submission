@@ -68,7 +68,11 @@ public class LevelEditor : SceneWithBoard
 	protected override bool CheckSolution()
 	{
 		bool solvable = true;
-
+		
+		//create clues
+		//solve line by line until done
+		//check if the solution is identical to the board state
+		
 		if (!solvable)
 		{
 			Drawing.UpdateMessage(message + "Not Solvable.", msgLeft, msgTop);
@@ -79,4 +83,6 @@ public class LevelEditor : SceneWithBoard
 		}
 		return solvable;
 	}
+	
+	
 }
