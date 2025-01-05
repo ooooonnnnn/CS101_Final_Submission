@@ -21,7 +21,7 @@ public abstract class SceneWithBoard : Scene
 	
 	//Soft marking
 	private bool softMarking;
-	protected bool SoftMarking
+	protected bool SoftMarking //changing soft marking mode updates a message near the board
 	{
 		get { return softMarking;}
 		set { 

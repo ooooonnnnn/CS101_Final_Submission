@@ -293,7 +293,7 @@ public static class Drawing
 		//clear the rest of the line
 		Console.Write(StrRepeat(" ",Console.BufferWidth - Console.CursorLeft));
 		
-		//restore cursor visibility
+		//restore cursor visibility and position
 		Console.CursorVisible = csrVis;
 		Console.CursorLeft = csrLft;
 		Console.CursorTop = csrTop;

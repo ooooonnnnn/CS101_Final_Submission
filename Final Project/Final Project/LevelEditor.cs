@@ -3,8 +3,6 @@ namespace Final_Project;
 public class LevelEditor : SceneWithBoard
 {
 	//level creation tool
-	//parameters
-	private bool editing = true; //will be set to false when finished editing
 	
 	protected override void Initialize()
 	{
@@ -19,19 +17,20 @@ public class LevelEditor : SceneWithBoard
 		Drawing.UpdateMessage(message,msgLeft,msgTop);
 	}
 
-	public void Start()
+	public void SaveLevel(string levelName)
 	{
-		//TEST
-		int[,] test = { { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 } };
-		StreamWriter sw = File.CreateText("testfile.txt");
-		for (int i = 0; i < test.GetLength(0); i++)
+		//saves the boardstate into a new file called levelname
+		StreamWriter sw = File.CreateText($"{levelName}.txt");
+		for (int i = 0; i < boardHeight; i++)
 		{
-			for (int j = 0; j < test.GetLength(1); j++)
+			for (int j = 0; j < boardWidth; j++)
 			{
-				sw.Write(test[i, j].ToString());
+				char charToWrite = boardState.Cells[j, i] == CellState.Black ? '1' : '0';
+				sw.Write(charToWrite);
 			}
 
-			if (i == test.GetLength(0) - 1)
+			//for the last line, skip writing the '\n'
+			if (i == boardHeight - 1)
 			{
 				break;
 			}
@@ -45,19 +44,39 @@ public class LevelEditor : SceneWithBoard
 	public override void Action2()
 	{
 		AnyKeyButArrow();//this will turn off soft marking
-		CheckSolution();
+		
+		if (!isSolved)
+		{
+			isSolved = CheckSolution();
+		}
+		else
+		{
+			//take user input for level name and save it
+			Console.Clear();
+			Console.Write("New level name: ");
+			string? levelName;
+			do
+			{
+				levelName = Console.ReadLine();
+			} while (levelName.Length == 0);
+			SaveLevel(levelName);
+			//finish scene
+			sceneFinished = true;
+		}
 	}
 
 	protected override bool CheckSolution()
 	{
-		bool solvable = false;
-		/*
-			solving logic here
-		*/
-		if (solvable)
+		bool solvable = true;
+
+		if (!solvable)
 		{
-			sceneFinished = true;
+			Drawing.UpdateMessage(message + "Not Solvable.", msgLeft, msgTop);
 		}
-		return false;
+		else
+		{
+			Drawing.UpdateMessage($"Solvable. Press ({InputHandler.MarkDot}) to finish editing. ", msgLeft, msgTop);
+		}
+		return solvable;
 	}
 }

@@ -66,7 +66,7 @@ public static class SceneManager
 					{
 						case "Test Level":
 							nextSceneFlag = flagGame;
-							levelPath = "testfile.txt";
+							levelPath = "test2.txt";
 							break;
 						case "Level Editor":
 							nextSceneFlag = flagLevelEditorMenu;
