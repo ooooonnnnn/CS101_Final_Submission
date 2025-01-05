@@ -76,6 +76,7 @@ public static class SceneManager
 		//used inside the menu loop
 		string title;
 		Menu menu;
+		List<Menu.MenuOption> levelSelectOpts;
 		
 		//menu loop
 		while (true)
@@ -90,8 +91,7 @@ public static class SceneManager
 					switch (selectedOption.text)
 					{
 						case "Level Select":
-							nextSceneFlag = SceneFlag.game;
-							levelPath = "test2.txt";
+							nextSceneFlag = SceneFlag.levelSelect;
 							break;
 						case "Level Editor":
 							nextSceneFlag = SceneFlag.levelEditorMenu;
@@ -100,6 +100,20 @@ public static class SceneManager
 							//stop application
 							return;
 					}
+					break;
+				
+				case SceneFlag.levelSelect:
+					levelSelectOpts = new List<Menu.MenuOption>();
+					foreach (string level in levels)
+					{
+						levelSelectOpts.Add(new Menu.MenuOption(level));
+					}
+
+					title = "Choose Level: ";
+					menu = new Menu(title, levelSelectOpts);
+					menu.StartScene();
+					nextSceneFlag = SceneFlag.game;
+					levelPath = selectedOption.text + ".txt";
 					break;
 				
 				case SceneFlag.game:
