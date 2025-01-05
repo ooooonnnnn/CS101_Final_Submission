@@ -6,8 +6,16 @@ public static class SceneManager
 {
 	//Runs the game, switches between scenes: game, level editor, menu
 	//each scene has it's own flag
-	private static int nextSceneFlag = 0;
-	private const int flagStartMenu = 0, flagGame = 1, flagTutorial = 2, flagLevelEditorMenu = 3, flagEditor = 4;
+	private static SceneFlag nextSceneFlag = SceneFlag.startMenu;
+	private enum SceneFlag
+	{
+		startMenu = 0,
+		game = 1,
+		tutorial = 2,
+		levelEditorMenu = 3,
+		editor = 4,
+		levelSelect = 5
+	}
 	
 	//menus write to this variable the selected option
 	public static Menu.MenuOption selectedOption;
@@ -23,7 +31,7 @@ public static class SceneManager
 	//Option lists for menus
 	private static List<Menu.MenuOption> mainOpts = new List<Menu.MenuOption>()
 	{
-		new Menu.MenuOption("Test Level"),
+		new Menu.MenuOption("Level Select"),
 		new Menu.MenuOption("Tutorial"),
 		new Menu.MenuOption("Level Editor"),
 		new Menu.MenuOption("Quit")
@@ -65,7 +73,7 @@ public static class SceneManager
 			levels[i] = s.Remove(s.Length - 4).Remove(0,basePath.Length + 1);
 		}
 		
-		//used inside the while for menus
+		//used inside the menu loop
 		string title;
 		Menu menu;
 		
@@ -74,19 +82,19 @@ public static class SceneManager
 		{
 			switch (nextSceneFlag)
 			{
-				case flagStartMenu:
+				case SceneFlag.startMenu:
 					title = "Sh'chor Uptor\n" +
 					        "q to select";
 					menu = new Menu(title,mainOpts);
 					menu.StartScene();//this assigns a value to selectedOption
 					switch (selectedOption.text)
 					{
-						case "Test Level":
-							nextSceneFlag = flagGame;
+						case "Level Select":
+							nextSceneFlag = SceneFlag.game;
 							levelPath = "test2.txt";
 							break;
 						case "Level Editor":
-							nextSceneFlag = flagLevelEditorMenu;
+							nextSceneFlag = SceneFlag.levelEditorMenu;
 							break;
 						case "Quit":
 							//stop application
@@ -94,35 +102,35 @@ public static class SceneManager
 					}
 					break;
 				
-				case flagGame:
+				case SceneFlag.game:
 					Game game = new Game();
 					game.levelPath = levelPath;
 					game.StartScene();
-					nextSceneFlag = flagStartMenu;
+					nextSceneFlag = SceneFlag.startMenu;
 					break;
 				
-				case flagLevelEditorMenu:
+				case SceneFlag.levelEditorMenu:
 					title = "Choose board size: (right/left arrows)";
 					menu = new Menu(title, levelEditorOpts);
 					menu.StartScene();
 					switch (selectedOption.text)
 					{
 						case "Start":
-							nextSceneFlag = flagEditor;
+							nextSceneFlag = SceneFlag.editor;
 							break;
 						case "Back":
-							nextSceneFlag = flagStartMenu;
+							nextSceneFlag = SceneFlag.startMenu;
 							break;
 					}
 					break;
 				
-				case flagEditor:
+				case SceneFlag.editor:
 					LevelEditor levelEditor = new LevelEditor();
 					levelEditor.boardWidth = editorWidth;
 					levelEditor.boardHeight = editorHeight;
 					levelEditor.StartScene();
 					// levelEditor.RunBoardMenu();
-					nextSceneFlag = flagStartMenu;
+					nextSceneFlag = SceneFlag.startMenu;
 					break;
 			}
 		}
