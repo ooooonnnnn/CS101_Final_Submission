@@ -1,5 +1,7 @@
 namespace Final_Project;
 
+using System.IO;
+
 public static class SceneManager
 {
 	//Runs the game, switches between scenes: game, level editor, menu
@@ -12,6 +14,8 @@ public static class SceneManager
 	
 	//to load a specific level
 	private static string levelPath;
+	//all level names
+	private static string[] levels;
 	
 	//to create a level editor with board width and height
 	public static int editorWidth = 10, editorHeight = 10;
@@ -50,9 +54,22 @@ public static class SceneManager
 	{
 		//main scene loop
 		
+		//get all level names
+		string basePath =
+			"C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\bin\\Debug\\net9.0";
+		string[] files = Directory.GetFiles(basePath, "*.txt");
+		levels = new string[files.Length];
+		for (int i = 0; i < files.Length; i++)
+		{
+			string s = files[i];
+			levels[i] = s.Remove(s.Length - 4).Remove(0,basePath.Length + 1);
+		}
+		
 		//used inside the while for menus
 		string title;
 		Menu menu;
+		
+		//menu loop
 		while (true)
 		{
 			switch (nextSceneFlag)
