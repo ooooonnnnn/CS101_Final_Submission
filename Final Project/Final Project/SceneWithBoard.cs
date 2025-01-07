@@ -98,7 +98,6 @@ public abstract class SceneWithBoard : Scene
 			rowClues[i] = newClues.ToArray();
 		}
 	}
-
 	
 	protected void UpdateCell(CellState inputState)
 	{
