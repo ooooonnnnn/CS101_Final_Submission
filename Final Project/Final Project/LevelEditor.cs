@@ -66,17 +66,49 @@ public class LevelEditor : SceneWithBoard
 		}
 	}
 
-
-	private CellState[,] attemptSolution; //when the player checks if the level is solvable, the automatic solution is stored here
+	
+	CellState[,] attemptSolution; // used in CheckSolution and SolveLine
 	protected override bool CheckSolution()
 	{
 		bool solvable = true;
 		
 		//create clues
 		CalculateClues();
+		
 		//solve line by line until done
+		attemptSolution = new CellState[boardWidth, boardHeight];
+		bool changed = false;
+		while (!changed)
+		{
+			changed = false;
+			for (int i = 0; i < boardWidth; i++)
+			{
+				CellState[] newLineSolution = SolveLine(i, 0);
+				for (int j = 0; j < boardHeight; j++)
+				{
+					if (attemptSolution[i,j] != newLineSolution[j])
+					{
+						attemptSolution[i, j] = newLineSolution[j];
+						changed = true;
+					}
+				}
+			}
+			for (int i = 0; i < boardHeight; i++)
+			{
+				CellState[] newLineSolution = SolveLine(i, 1);
+				for (int j = 0; j < boardWidth; j++)
+				{
+					if (attemptSolution[j,i] != newLineSolution[j])
+					{
+						attemptSolution[j, i] = newLineSolution[j];
+						changed = true;
+					}
+				}
+			}
+		}
 		
 		//check if the solution is identical to the board state
+		solvable = attemptSolution == boardState.Cells;
 		
 		if (!solvable)
 		{
