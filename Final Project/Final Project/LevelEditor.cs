@@ -26,7 +26,7 @@ public class LevelEditor : SceneWithBoard
 		{
 			for (int j = 0; j < boardWidth; j++)
 			{
-				char charToWrite = boardState.Cells[j, i] == CellState.Black ? '1' : '0';
+				char charToWrite = boardState.Cells[i, j] == CellState.Black ? '1' : '0';
 				sw.Write(charToWrite);
 			}
 
@@ -70,21 +70,24 @@ public class LevelEditor : SceneWithBoard
 	CellState[,] attemptSolution; // used in CheckSolution and SolveLine
 	protected override bool CheckSolution()
 	{
-		bool solvable = true;
+		bool solvable;
 		
 		//create clues
+		solution = boardState.Cells;
 		CalculateClues();
 		
 		//solve line by line until done
-		attemptSolution = new CellState[boardWidth, boardHeight];
+		attemptSolution = new CellState[boardHeight, boardWidth];
 		bool changed = false;
 		while (!changed)
 		{
 			changed = false;
-			for (int i = 0; i < boardWidth; i++)
+			//solve rows
+			for (int i = 0; i < boardHeight; i++)
 			{
-				CellState[] newLineSolution = SolveLine(i, 0);
-				for (int j = 0; j < boardHeight; j++)
+				CellState[] newLineSolution = SolveLine(i, 1);
+				//check if the solution step changed anything
+				for (int j = 0; j < boardWidth; j++)
 				{
 					if (attemptSolution[i,j] != newLineSolution[j])
 					{
@@ -93,12 +96,15 @@ public class LevelEditor : SceneWithBoard
 					}
 				}
 			}
-			for (int i = 0; i < boardHeight; i++)
+			
+			//solve columns
+			for (int i = 0; i < boardWidth; i++)
 			{
-				CellState[] newLineSolution = SolveLine(i, 1);
-				for (int j = 0; j < boardWidth; j++)
+				CellState[] newLineSolution = SolveLine(i, 0);
+				//check if the solution step changed anything
+				for (int j = 0; j < boardHeight; j++)
 				{
-					if (attemptSolution[j,i] != newLineSolution[j])
+					if (attemptSolution[j, i] != newLineSolution[j])
 					{
 						attemptSolution[j, i] = newLineSolution[j];
 						changed = true;
@@ -136,7 +142,7 @@ public class LevelEditor : SceneWithBoard
 		{
 			currentLineSolution[i] = dimension == 0 ? attemptSolution[i, lineIndex] : attemptSolution[lineIndex, i];
 		}
-		int[] clue = dimension == 0 ? rowClues[lineIndex] : columnClues[lineIndex];
+		int[] clue = dimension == 0 ? columnClues[lineIndex] : rowClues[lineIndex];
 		//return trivial solution
 		if (clue.Length == 0)
 		{

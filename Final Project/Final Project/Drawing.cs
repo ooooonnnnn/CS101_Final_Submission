@@ -102,7 +102,7 @@ public static class Drawing
 				}
 				
 				//draw the cell content
-				switch (boardState.Cells[j,i])
+				switch (boardState.Cells[i,j])
 				{
 					case CellState.Unknown:
 						if ((i + 1) % 5 == 0) Console.Write(StrRepeat(hLine, cellWidth - 1));

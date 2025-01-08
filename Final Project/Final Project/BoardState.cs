@@ -39,7 +39,7 @@ public class BoardState
 		
 		Width = width;
 		Height = height;
-		Cells = new CellState[width, height];
+		Cells = new CellState[height, width];
 		RowClues = rowClues;
 		ColumnClues = columnClues;
 	}

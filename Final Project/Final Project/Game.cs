@@ -1,4 +1,7 @@
-﻿namespace Final_Project;
+﻿using System.Text;
+using System.Text.Unicode;
+
+namespace Final_Project;
 
 public class Game : SceneWithBoard
 {
@@ -55,6 +58,7 @@ public class Game : SceneWithBoard
 	     */
 	    StreamReader sr = File.OpenText(path);
 	    string str = sr.ReadToEnd();
+	    sr.Close();
 	    //temporary list for dynamically reading from file
 	    List<List<CellState>> list = new List<List<CellState>>();
 	    list.Add(new List<CellState>());
@@ -82,16 +86,22 @@ public class Game : SceneWithBoard
 				    boardHeight++;
 				    list.Add(new List<CellState>());
 				    break;
+			    default: //handles unexpected chars such as \r
+				    if (trackWidth)
+				    {
+					    boardWidth--;
+				    }
+				    break;
 		    }
 	    }
 	    
 	    //Convert from List<List<CellState>> to CellState[,] and assign to Solution
-	    solution = new CellState[boardWidth, boardWidth];
-	    for (int i = 0; i < boardWidth; i++)
+	    solution = new CellState[boardHeight, boardWidth];
+	    for (int i = 0; i < boardHeight; i++)
 	    {
-		    for (int j = 0; j < boardHeight; j++)
+		    for (int j = 0; j < boardWidth; j++)
 		    {
-			    solution[i, j] = list[j][i];
+			    solution[i, j] = list[i][j];
 		    }
 	    }
 	    
@@ -101,9 +111,9 @@ public class Game : SceneWithBoard
 	
 	protected override bool CheckSolution()
     {
-	    for (int i = 0; i < boardWidth; i++)
+	    for (int i = 0; i < boardHeight; i++)
 	    {
-		    for (int j = 0; j < boardHeight; j++)
+		    for (int j = 0; j < boardWidth; j++)
 		    {
 			    if (boardState.Cells[i,j] == CellState.Black ^ solution[i,j] == CellState.Black)
 			    {

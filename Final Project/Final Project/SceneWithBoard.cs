@@ -56,7 +56,7 @@ public abstract class SceneWithBoard : Scene
 			int currentClue = 0; //keeps track of the latest parsed clue
 			for (int j = boardHeight-1; j >= 0; j--)
 			{
-				if (solution[i,j] == CellState.Black)
+				if (solution[j,i] == CellState.Black)
 				{
 					currentClue++;
 				}
@@ -81,7 +81,7 @@ public abstract class SceneWithBoard : Scene
 			int currentClue = 0; //keeps track of the latest parsed clue
 			for (int j = boardWidth-1; j >= 0; j--)
 			{
-				if (solution[j,i] == CellState.Black)
+				if (solution[i,j] == CellState.Black)
 				{
 					currentClue++;
 				}
@@ -101,19 +101,19 @@ public abstract class SceneWithBoard : Scene
 	
 	protected void UpdateCell(CellState inputState)
 	{
-		/*sets the highlighted state according to its' current state and input state
+		/*sets the highlighted state according to its current state and input state
 		 if they are the same, the new state is unknown,
 		 else, the new state is the input state
 		 */
 		//soft mark only updates cells with SoftMarkingMode.Item1
-		if (SoftMarking && boardState.Cells[gameCursorX,gameCursorY] != SoftMarkingMode.Item1)
+		if (SoftMarking && boardState.Cells[gameCursorY,gameCursorX] != SoftMarkingMode.Item1)
 		{
 			return;
 		}
 	    
-		CellState current = boardState.Cells[gameCursorX, gameCursorY];
-		boardState.Cells[gameCursorX, gameCursorY] = current == inputState ? CellState.Unknown : inputState;
-		Drawing.UpdateBoardCell(boardState.Cells[gameCursorX,gameCursorY]);
+		CellState current = boardState.Cells[gameCursorY, gameCursorX];
+		boardState.Cells[gameCursorY, gameCursorX] = current == inputState ? CellState.Unknown : inputState;
+		Drawing.UpdateBoardCell(boardState.Cells[gameCursorY,gameCursorX]);
 	    
 		//call for some function (in Game this is check solution)
 		OnUpdateCell();
@@ -152,7 +152,7 @@ public abstract class SceneWithBoard : Scene
 
 	protected void StartSoftMarking(CellState targetState)
 	{
-		SoftMarkingMode.Item1 = boardState.Cells[gameCursorX, gameCursorY]; 
+		SoftMarkingMode.Item1 = boardState.Cells[gameCursorY, gameCursorX]; 
 		SoftMarkingMode.Item2 = targetState == SoftMarkingMode.Item1 ? CellState.Unknown : targetState; 
 		SoftMarking = true; 
 		UpdateCell(targetState);
