@@ -17,10 +17,10 @@ public static class SceneManager
 		levelSelect = 5
 	}
 	
-	//menus write the selected option to this variable 
+	//menus write to this variable the selected option
 	public static Menu.MenuOption selectedOption;
 	
-	//to load a specific level from text file
+	//to load a specific level
 	private static string levelPath;
 	//all level names
 	private static string[] levels;
@@ -73,13 +73,11 @@ public static class SceneManager
 			levels[i] = s.Remove(s.Length - 4).Remove(0,basePath.Length + 1);
 		}
 		
-		//prepare console window
-		Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
-		
 		//used inside the menu loop
 		string title;
 		Menu menu;
 		List<Menu.MenuOption> levelSelectOpts;
+		
 		//menu loop
 		while (true)
 		{

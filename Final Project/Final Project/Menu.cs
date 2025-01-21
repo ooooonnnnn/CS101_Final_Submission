@@ -35,9 +35,8 @@ public class Menu : Scene
 	private void WriteOption(int optionNum)
 	{
 		//updates the graphic for the option in menuOptions with index optionNum
-
-		if (!Drawing.SafeSetCursorPosition(0, optionNum * 2 + numTitleRows)) return;
-		// Console.SetCursorPosition(0,optionNum*2 + numTitleRows);
+		
+		Console.SetCursorPosition(0,optionNum*2 + numTitleRows);
 		
 		//first clear the line
 		Console.BackgroundColor = ConsoleColor.Black;
