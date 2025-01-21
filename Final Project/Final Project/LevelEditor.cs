@@ -204,20 +204,6 @@ public class LevelEditor : SceneWithBoard
 			(pairCells.First != CellState.Black) && (pairCells.Second == CellState.Black)));
 		
 		//intersect all remaining solutions to find certain black cells and certain dot cells
-		CellState[] blacks = solutions.Aggregate(IntersectBlack);
-		CellState[] dots = solutions.Aggregate(IntersectDot);
-		for (int i = 0; i < lineLength; i++)
-		{
-			if (blacks[i] == CellState.Black)
-			{
-				newLineSolution[i] = CellState.Black;
-			}
-
-			if (dots[i] == CellState.Dot)
-			{
-				newLineSolution[i] = CellState.Dot;
-			}
-		}
 		CellState[] IntersectBlack(CellState[] a,CellState[] b)
 		{
 			return IntersectGeneral(a, b, CellState.Black);
@@ -240,6 +226,24 @@ public class LevelEditor : SceneWithBoard
 			}
 
 			return result;
+		}
+
+		CellState[] seed = new CellState[lineLength];//used as a seed for the intersection aggergate
+		for (int i = 0; i < lineLength; i++) seed[i] = CellState.Black;
+		CellState[] blacks = solutions.Aggregate(seed, IntersectBlack);
+		for (int i = 0; i < lineLength; i++) seed[i] = CellState.Dot;
+		CellState[] dots = solutions.Aggregate(seed, IntersectDot);
+		for (int i = 0; i < lineLength; i++)
+		{
+			if (blacks[i] == CellState.Black)
+			{
+				newLineSolution[i] = CellState.Black;
+			}
+
+			if (dots[i] == CellState.Dot)
+			{
+				newLineSolution[i] = CellState.Dot;
+			}
 		}
 		
 		return newLineSolution;

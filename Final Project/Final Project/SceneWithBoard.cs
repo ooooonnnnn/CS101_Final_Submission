@@ -117,7 +117,6 @@ public abstract class SceneWithBoard : Scene
 	    
 		//call for some function (in Game this is check solution)
 		OnUpdateCell();
-
 	}
 
 	protected virtual void OnUpdateCell(){}

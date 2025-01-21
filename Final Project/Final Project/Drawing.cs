@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices.JavaScript;
+
 namespace Final_Project;
 using System;
 using System.Linq;
@@ -20,7 +22,7 @@ public static class Drawing
 	private static int boardWidth, boardHeight;
 	private static int clueRowHeight, clueColWidth; //How much space is reserved for the clues on the top and left of the board
 	private static int maxRowClues; //how many cells need to be drawn on the left for clues?
-
+	
 	public static void Initialize(BoardState boardState)
 	{
 		//imports the board size from boardState and calculates the space needed for the clues
@@ -30,6 +32,17 @@ public static class Drawing
 		clueRowHeight = boardState.ColumnClues.Max(c => c != null ? c.Length : 0); //one row per clue
 		maxRowClues = boardState.RowClues.Max(c => c != null ? c.Length : 0); //how many clues are on the left, max?
 		clueColWidth = maxRowClues * cellWidth; //one cell per clue
+	}
+
+	public static bool SafeSetCursorPosition(int left, int top)
+	{
+		//if left and top are valid, moves the cursor and returns true
+		if (left >= Console.BufferWidth || top >= Console.BufferHeight)
+		{
+			return false;
+		}
+		Console.SetCursorPosition(left, top);
+		return true;
 	}
 	
 	public static void Draw(BoardState boardState)
@@ -203,7 +216,8 @@ public static class Drawing
 		//de-highlight column clues
 		for (int i = 0; i < clueRowHeight; i++)
 		{
-			Console.SetCursorPosition(clueColWidth + prevCol*cellWidth, i);
+			if (!SafeSetCursorPosition(clueColWidth + prevCol * cellWidth, i)) continue;
+			//Console.SetCursorPosition(clueColWidth + prevCol*cellWidth, i);
 			string clue;
 			try
 			{
@@ -219,7 +233,8 @@ public static class Drawing
 		//de-highlight row clues
 		for (int i = 0; i < maxRowClues; i++)
 		{
-			Console.SetCursorPosition(i*cellWidth, clueRowHeight + 1 + prevRow);
+			if (!SafeSetCursorPosition(i * cellWidth, clueRowHeight + 1 + prevRow)) continue;
+			// Console.SetCursorPosition(i*cellWidth, clueRowHeight + 1 + prevRow);
 			string clue;
 			try
 			{
@@ -235,7 +250,8 @@ public static class Drawing
 		//highlight column clues
 		for (int i = 0; i < clueRowHeight; i++)
 		{
-			Console.SetCursorPosition(clueColWidth + column*cellWidth, i);
+			if (!SafeSetCursorPosition(clueColWidth + column * cellWidth, i)) continue;
+			// Console.SetCursorPosition(clueColWidth + column*cellWidth, i);
 			string clue;
 			try
 			{
@@ -251,7 +267,8 @@ public static class Drawing
 		//highlight row clues
 		for (int i = 0; i < maxRowClues; i++)
 		{
-			Console.SetCursorPosition(i*cellWidth, clueRowHeight + 1 + row);
+			if (!SafeSetCursorPosition(i * cellWidth, clueRowHeight + 1 + row)) continue;
+			// Console.SetCursorPosition(i*cellWidth, clueRowHeight + 1 + row);
 			string clue;
 			try
 			{
@@ -275,7 +292,8 @@ public static class Drawing
 	public static void UpdateCursor(int column, int row)
 	{
 		//places the cursor in a cell with coordinates column and row WITHOUT UPDATING graphics
-		Console.SetCursorPosition(1 + clueColWidth + cellWidth * column, 1 + clueRowHeight + row);
+		if (!SafeSetCursorPosition(1 + clueColWidth + cellWidth * column, 1 + clueRowHeight + row)) return;
+		// Console.SetCursorPosition(1 + clueColWidth + cellWidth * column, 1 + clueRowHeight + row);
 	}
 
 	public static void UpdateMessage(string message, int msgLeft, int msgTop)
@@ -287,8 +305,10 @@ public static class Drawing
 		int csrLft = Console.CursorLeft;
 		int csrTop = Console.CursorTop;
 
-		Console.SetCursorPosition(clueColWidth + cellWidth * boardWidth + msgLeft,
-			clueRowHeight + msgTop);
+		if (!SafeSetCursorPosition(clueColWidth + cellWidth * boardWidth + msgLeft,
+			clueRowHeight + msgTop)) return;
+		// Console.SetCursorPosition(clueColWidth + cellWidth * boardWidth + msgLeft,
+			// clueRowHeight + msgTop);
 		Console.Write(message);
 		//clear the rest of the line
 		Console.Write(StrRepeat(" ",Console.BufferWidth - Console.CursorLeft));
