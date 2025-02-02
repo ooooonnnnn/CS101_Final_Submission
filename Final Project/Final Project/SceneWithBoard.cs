@@ -163,16 +163,20 @@ public abstract class SceneWithBoard : Scene
 			SoftMarking = false;
 		else
 			UpdateCell(CellState.Black);
+		EditorBoardChangeNotice();
 	}
 	
 	public override void ActionShift1()
 	{
 		StartSoftMarking(CellState.Black);
+		EditorBoardChangeNotice();
 	}
 	
 	public override void AnyKeyButArrow()
 	{
 		SoftMarking = false;
 	}
-	
+
+	protected virtual void EditorBoardChangeNotice() { } //this is called whenever the user changes the board state in the editor scene
+
 }

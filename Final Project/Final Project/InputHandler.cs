@@ -71,7 +71,7 @@ public static class InputHandler
 			}
 		}
 		
-		//handle any key
+		//handle any key without shift held, except for arrow keys
 		if ((mods & ConsoleModifiers.Shift) == 0 && NotArrowKey(key))
 		{
 			scene.AnyKeyButArrow();

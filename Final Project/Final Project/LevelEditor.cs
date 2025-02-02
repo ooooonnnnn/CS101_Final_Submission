@@ -13,7 +13,7 @@ public class LevelEditor : SceneWithBoard
 		message = $"({InputHandler.MarkDot}): check if solvable. ";
 		//updates everything on screen 
 		Drawing.Draw(boardState);
-		Drawing.UpdateCursor(SceneWithBoard.gameCursorX, SceneWithBoard.gameCursorY);
+		Drawing.UpdateCursor(gameCursorX, gameCursorY);
 		Console.CursorVisible = true;
 		Drawing.UpdateMessage(message,msgLeft,msgTop);
 	}
@@ -66,12 +66,16 @@ public class LevelEditor : SceneWithBoard
 		}
 	}
 
-	
+	protected override void EditorBoardChangeNotice()
+	{
+		isSolved = false;
+		Drawing.UpdateMessage(message, msgLeft, msgTop);
+	}
+
 	CellState[,] attemptSolution; // used in CheckSolution and SolveLine
 	protected override bool CheckSolution()
 	{
-		bool solvable;
-		
+		//check whether the user provided drawing is solvable given the clues that define it
 		//create clues
 		solution = boardState.Cells;
 		CalculateClues();
@@ -114,8 +118,15 @@ public class LevelEditor : SceneWithBoard
 		}
 		
 		//check if the solution is identical to the board state
-		solvable = CellStateUtilities.BlacksMatch(attemptSolution,boardState.Cells);
+		bool solvable = CellStateUtilities.BlacksMatch(attemptSolution,boardState.Cells);
+		UpdateMessageSolvable(solvable);
 		
+		return solvable;
+	}
+
+	private void UpdateMessageSolvable(bool solvable)
+	{
+		//update message
 		if (!solvable)
 		{
 			Drawing.UpdateMessage(message + "Not Solvable.", msgLeft, msgTop);
@@ -124,7 +135,6 @@ public class LevelEditor : SceneWithBoard
 		{
 			Drawing.UpdateMessage($"Solvable. Press ({InputHandler.MarkDot}) to finish editing. ", msgLeft, msgTop);
 		}
-		return solvable;
 	}
 
 	private CellState[] SolveLine(int lineIndex, int dimension)
