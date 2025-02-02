@@ -1,4 +1,5 @@
 namespace Final_Project;
+using System.Linq;
 
 public class BoardState
 {
@@ -51,9 +52,9 @@ public enum CellState
 	Unknown, Dot, Black
 }
 
-public static class Extensions
+public static class CellStateUtilities
 {
-	public static string ToString(this CellState cellState)
+	public static string ToString(CellState cellState)
 	{
 		switch (cellState)
 		{
@@ -63,5 +64,31 @@ public static class Extensions
 		}
 
 		return "";
+	}
+
+	public static bool BlacksMatch(CellState[,] cellStates, CellState[,] other)
+	{
+		//returns true if all black cells correspond in the two CellState[,]'s
+		
+		//check equal sizes
+		int numRows = cellStates.GetLength(0);
+		int numCols = cellStates.GetLength(1);
+		if (numRows != other.GetLength(0) || numCols != other.GetLength(1))
+		{
+			throw new ArgumentException("both arrays must have the same size");
+		}
+
+		for (int i = 0; i < numRows; i++)
+		{
+			for (int j = 0; j < numCols; j++)
+			{
+				if (cellStates[i,j] == CellState.Black ^ other[i,j] == CellState.Black)
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }

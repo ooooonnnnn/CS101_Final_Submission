@@ -114,7 +114,7 @@ public class LevelEditor : SceneWithBoard
 		}
 		
 		//check if the solution is identical to the board state
-		solvable = attemptSolution == boardState.Cells;
+		solvable = CellStateUtilities.BlacksMatch(attemptSolution,boardState.Cells);
 		
 		if (!solvable)
 		{
