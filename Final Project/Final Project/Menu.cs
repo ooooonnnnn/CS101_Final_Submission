@@ -15,10 +15,14 @@ public class Menu : Scene
 	{
 		//Initialize menu
 		menuOptions = options;
-		Console.CursorVisible = false;
+		// Console.CursorVisible = false;
 		
-		//display
+		//---------------------------display--------------------------------
+		// Console.WriteLine($"cursor: {Console.CursorLeft}, {Console.CursorTop}, buffer: {Console.BufferWidth}, {Console.BufferHeight}");
 		Console.Clear();
+		// Console.WriteLine("\x1b[3J");
+		// Thread.Sleep(1000);
+		// Console.WriteLine($"cursor: {Console.CursorLeft}, {Console.CursorTop}, buffer: {Console.BufferWidth}, {Console.BufferHeight}");
 		Console.WriteLine(title + "\n");
 		numTitleRows = title.Count(c => c == '\n') + 2;
 		for (int i = 0; i < menuOptions.Count; i++)
