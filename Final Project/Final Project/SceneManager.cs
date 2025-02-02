@@ -74,13 +74,13 @@ public static class SceneManager
 		}
 		
 		//prepare console window
-		Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+		// Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 		
 		//used inside the menu loop
 		string title;
 		Menu menu;
 		List<Menu.MenuOption> levelSelectOpts;
-		//menu loop
+		//main game loop: switch between scenes
 		while (true)
 		{
 			switch (nextSceneFlag)

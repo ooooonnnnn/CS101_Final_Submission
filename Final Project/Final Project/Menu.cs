@@ -20,7 +20,6 @@ public class Menu : Scene
 		//---------------------------display--------------------------------
 		// Console.WriteLine($"cursor: {Console.CursorLeft}, {Console.CursorTop}, buffer: {Console.BufferWidth}, {Console.BufferHeight}");
 		Console.Clear();
-		// Console.WriteLine("\x1b[3J");
 		// Thread.Sleep(1000);
 		// Console.WriteLine($"cursor: {Console.CursorLeft}, {Console.CursorTop}, buffer: {Console.BufferWidth}, {Console.BufferHeight}");
 		Console.WriteLine(title + "\n");
