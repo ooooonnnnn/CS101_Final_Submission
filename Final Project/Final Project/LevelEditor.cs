@@ -82,8 +82,8 @@ public class LevelEditor : SceneWithBoard
 		
 		//solve line by line until done
 		attemptSolution = new CellState[boardHeight, boardWidth];
-		bool changed = false;
-		while (!changed)
+		bool changed = true;
+		do
 		{
 			changed = false;
 			//solve rows
@@ -93,14 +93,14 @@ public class LevelEditor : SceneWithBoard
 				//check if the solution step changed anything
 				for (int j = 0; j < boardWidth; j++)
 				{
-					if (attemptSolution[i,j] != newLineSolution[j])
+					if (attemptSolution[i, j] != newLineSolution[j] && newLineSolution[j] != CellState.Unknown)
 					{
 						attemptSolution[i, j] = newLineSolution[j];
 						changed = true;
 					}
 				}
 			}
-			
+
 			//solve columns
 			for (int i = 0; i < boardWidth; i++)
 			{
@@ -108,14 +108,14 @@ public class LevelEditor : SceneWithBoard
 				//check if the solution step changed anything
 				for (int j = 0; j < boardHeight; j++)
 				{
-					if (attemptSolution[j, i] != newLineSolution[j])
+					if (attemptSolution[j, i] != newLineSolution[j] && newLineSolution[j] != CellState.Unknown)
 					{
 						attemptSolution[j, i] = newLineSolution[j];
 						changed = true;
 					}
 				}
 			}
-		}
+		} while (changed);
 		
 		//check if the solution is identical to the board state
 		bool solvable = CellStateUtilities.BlacksMatch(attemptSolution,boardState.Cells);
@@ -144,48 +144,41 @@ public class LevelEditor : SceneWithBoard
 		//{|  |  |  |&&|  |}, it will return {|``|  |&&|&&|  |}.
 		//works by intersecting all possible solutions for this line with both the clue and the current state of the solution
 
-		//initialization
+		//------------initialization
 		int lineLength = boardState.Cells.GetLength(dimension);
 		CellState[] currentLineSolution = new CellState[lineLength];
-		CellState[] newLineSolution = new CellState[lineLength];
 		for (int i = 0; i < lineLength; i++)
 		{
 			currentLineSolution[i] = dimension == 0 ? attemptSolution[i, lineIndex] : attemptSolution[lineIndex, i];
 		}
+		CellState[] newLineSolution = new CellState[lineLength];
 		int[] clue = dimension == 0 ? columnClues[lineIndex] : rowClues[lineIndex];
-		//return trivial solution
+		
+		//------------return trivial solution
 		if (clue.Length == 0)
 		{
-			for (int i = 0; i < newLineSolution.Length; i++)
-			{
-				newLineSolution[i] = CellState.Dot;
-			}
-
-			return newLineSolution;
+			return newLineSolution.Select(_ => CellState.Dot).ToArray();
 		}
 		
-		//all possible solutions for the clue
+		//------------all possible solutions for the clue
 		List<CellState[]> solutions = new List<CellState[]>();
-		int[] spaces = new int[clue.Length]; // the number of spaces before each run of blacks in the solution
+		int[] spaces = (new int[clue.Length]).Select((_, i) => i > 0 ? 1 : 0).ToArray(); // the number of spaces before each run of blacks in the solution
 		bool moreSolutions;
 		do
 		{
 			//the solution defined by the current state of spaces is valid
-			CellState[] solutionToAdd = new CellState[lineLength];
+			//construct the solution from the spaces
+			CellState[] solutionToAdd = (new CellState[lineLength]).Select(_ => CellState.Dot).ToArray();
 			int index = 0;
 			for (int i = 0; i < spaces.Length; i++)
 			{
-				for (int j = 0; j < spaces[i]; j++)
-				{
-					solutionToAdd[index + j] = CellState.Unknown;
-				}
 				index += spaces[i];
 
-				for (int j = 0; j < clue[i]; j++)
+				for (int j = 0; j < clue[clue.Length - 1 - i]; j++)
 				{
 					solutionToAdd[index + j] = CellState.Black;
 				}
-				index += clue[i];
+				index += clue[clue.Length - 1 - i];
 			}
 			solutions.Add(solutionToAdd);
 			
@@ -204,14 +197,14 @@ public class LevelEditor : SceneWithBoard
 				}
 				else
 				{
-					nextSpaces[i] = 0;
+					nextSpaces[i] = i > 0 ? 1 : 0;
 				}
 			}
 		} while (moreSolutions);
 		
 		//remove solutions that don't fit the current state of the solution
 		solutions.RemoveAll(sol => sol.Zip(currentLineSolution).Any(pairCells =>
-			(pairCells.First != CellState.Black) && (pairCells.Second == CellState.Black)));
+			CellStateUtilities.UnequalAndNotUnkown(pairCells.First, pairCells.Second)));
 		
 		//intersect all remaining solutions to find certain black cells and certain dot cells
 		CellState[] IntersectBlack(CellState[] a,CellState[] b)
@@ -234,14 +227,12 @@ public class LevelEditor : SceneWithBoard
 					result[i] = target;
 				}
 			}
-
 			return result;
 		}
 
-		CellState[] seed = new CellState[lineLength];//used as a seed for the intersection aggergate
-		for (int i = 0; i < lineLength; i++) seed[i] = CellState.Black;
+		CellState[] seed = (new CellState[lineLength]).Select(_ => CellState.Black).ToArray();//used as a seed for the intersection aggergate
 		CellState[] blacks = solutions.Aggregate(seed, IntersectBlack);
-		for (int i = 0; i < lineLength; i++) seed[i] = CellState.Dot;
+		seed = (new CellState[lineLength]).Select(_ => CellState.Dot).ToArray();
 		CellState[] dots = solutions.Aggregate(seed, IntersectDot);
 		for (int i = 0; i < lineLength; i++)
 		{

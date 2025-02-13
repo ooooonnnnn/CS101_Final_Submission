@@ -66,6 +66,11 @@ public static class CellStateUtilities
 		return "";
 	}
 
+	public static bool UnequalAndNotUnkown(CellState a, CellState b)
+	{
+		return a != b && a != CellState.Unknown && b != CellState.Unknown;
+	}
+
 	public static bool BlacksMatch(CellState[,] cellStates, CellState[,] other)
 	{
 		//returns true if all black cells correspond in the two CellState[,]'s
