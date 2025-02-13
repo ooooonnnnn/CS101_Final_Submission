@@ -29,6 +29,8 @@ public class Game : SceneWithBoard
 	    message = "";
 	    //updates everything on screen 
 	    Drawing.Draw(boardState);
+	    gameCursorX = 0;
+	    gameCursorY = 0;
 	    Drawing.UpdateCursor(gameCursorX, gameCursorY);
 	    Console.CursorVisible = true;
     }

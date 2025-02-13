@@ -13,6 +13,8 @@ public class LevelEditor : SceneWithBoard
 		message = $"({InputHandler.MarkDot}): check if solvable. ";
 		//updates everything on screen 
 		Drawing.Draw(boardState);
+		gameCursorX = 0;
+		gameCursorY = 0;
 		Drawing.UpdateCursor(gameCursorX, gameCursorY);
 		Console.CursorVisible = true;
 		Drawing.UpdateMessage(message,msgLeft,msgTop);
