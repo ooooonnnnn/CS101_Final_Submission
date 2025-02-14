@@ -15,10 +15,10 @@ public static class Drawing
 		vLine = ":",
 		vLineBold = "|",
 		corner = ".",
-		dot = "`",
+		dot = "'",
 		rightArrow = ">";
 	//settings for drawing the board
-	private static int cellWidth = 3; //external width of each cell (if 3 than internal width is 2)
+	private static int cellWidth = 2; //external width of each cell (if 3 than internal width is 2)
 	private static int boardWidth, boardHeight;
 	private static int clueRowHeight, clueColWidth; //How much space is reserved for the clues on the top and left of the board
 	private static int maxRowClues; //how many cells need to be drawn on the left for clues?
