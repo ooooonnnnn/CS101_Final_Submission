@@ -57,6 +57,11 @@ public static class SceneManager
 		
 		new Menu.MenuOption("Back")
 	};
+
+	private static List<Menu.MenuOption> tutorialOpts = new List<Menu.MenuOption>()
+	{
+		new Menu.MenuOption("Back")
+	};
 	
 	public static void Main()
 	{
@@ -80,7 +85,7 @@ public static class SceneManager
 		string title;
 		Menu menu;
 		List<Menu.MenuOption> levelSelectOpts;
-		//main game loop: switch between scenes
+		//-------------------------------------main game loop: switch between scenes
 		while (true)
 		{
 			switch (nextSceneFlag)
@@ -95,12 +100,46 @@ public static class SceneManager
 						case "Level Select":
 							nextSceneFlag = SceneFlag.levelSelect;
 							break;
+						case "Tutorial":
+							nextSceneFlag = SceneFlag.tutorial;
+							break;
 						case "Level Editor":
 							nextSceneFlag = SceneFlag.levelEditorMenu;
 							break;
 						case "Quit":
 							//stop application
 							return;
+					}
+					break;
+				
+				case SceneFlag.tutorial:
+					title = $"OBJECTIVE: \n" +
+					        $"-----------------------------------------------------------\n" +
+					        $"Use the clues to decipher the picture!\n" +
+					        $"Each row and column have a series of clues that define consecutive runs of black cells in the final picture,\n" +
+					        $"with at least one space between them.\n" +
+					        $"You may use dots to mark cells you know must be empty, but it isn't required for solving the puzzle. \n" +
+					        $"\n" +
+					        $"EXAMPLE: \n" +
+					        $"\n" +
+					        $"       2 1 2\n     2 1 1 1 2\n    ._________.\n 1 1| :@: :@: |\n 1 1| :@: :@: |<- Two runs of 1 cell" +
+					        $"\n   1| : :@: : |\n 1 1|@: : : :@|\n   5|@:@:@:@:@|" +
+					        $"<- One run of 5 cells\n" +
+					        $"       ^ \n" +
+					        $"       ^A run of 2 cells, followed by a run of 1 cell \n" +
+					        $"\n" +
+					        $"CONTROLS: \n" +
+					        $"-----------------------------------------------------------\n" +
+					        $"Arrow keys to move cursor\n" +
+					        $"({InputHandler.MarkBlack}): mark cell black, ({InputHandler.MarkDot}): mark cell with dot\n" +
+					        $"(Left Shift + {InputHandler.MarkBlack}/{InputHandler.MarkDot}): initiate continuous marking, and cancel with and key.";
+					menu = new Menu(title,tutorialOpts);
+					menu.StartScene();//this assigns a value to selectedOption
+					switch (selectedOption.text)
+					{
+						case "Back":
+							nextSceneFlag = SceneFlag.startMenu;
+							break;
 					}
 					break;
 				
