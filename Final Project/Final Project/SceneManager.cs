@@ -67,17 +67,6 @@ public static class SceneManager
 	{
 		//main scene loop
 		
-		//get all level names
-		string basePath =
-			"C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\bin\\Debug\\net9.0";
-		string[] files = Directory.GetFiles(basePath, "*.txt");
-		levels = new string[files.Length];
-		for (int i = 0; i < files.Length; i++)
-		{
-			string s = files[i];
-			levels[i] = s.Remove(s.Length - 4).Remove(0,basePath.Length + 1);
-		}
-		
 		//prepare console window
 		// Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 		
@@ -91,8 +80,8 @@ public static class SceneManager
 			switch (nextSceneFlag)
 			{
 				case SceneFlag.startMenu:
-					title = "Sh'chor Uptor\n" +
-					        "q to select";
+					title = "Griddlers\n" +
+					        $"Arrow keys to move, ({InputHandler.MarkBlack}) to select";
 					menu = new Menu(title,mainOpts);
 					menu.StartScene();//this assigns a value to selectedOption
 					switch (selectedOption.text)
@@ -144,6 +133,19 @@ public static class SceneManager
 					break;
 				
 				case SceneFlag.levelSelect:
+					
+					//get all level names
+					string basePath =
+						"C:\\Users\\USER\\Documents\\GitHub\\CS101_Final_Submission\\Final Project\\Final Project\\bin\\Debug\\net9.0";
+					string[] files = Directory.GetFiles(basePath, "*.txt");
+					levels = new string[files.Length];
+					for (int i = 0; i < files.Length; i++)
+					{
+						string s = files[i];
+						levels[i] = s.Remove(s.Length - 4).Remove(0,basePath.Length + 1);
+					}
+					
+					//constuct menu
 					levelSelectOpts = new List<Menu.MenuOption>();
 					foreach (string level in levels)
 					{

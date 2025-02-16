@@ -44,6 +44,12 @@ public static class InputHandler
 				return;
 		}
 		
+		//handle any key without shift held, except for arrow keys
+		if (NotArrowKey(key))
+		{
+			scene.AnyKeyButArrow();
+		}
+		
 		//handle q w and shift
 		ConsoleModifiers mods = keyInfo.Modifiers;
 		if ((mods & ConsoleModifiers.Shift) != 0)
@@ -69,12 +75,6 @@ public static class InputHandler
 					scene.Action2();
 					return;
 			}
-		}
-		
-		//handle any key without shift held, except for arrow keys
-		if ((mods & ConsoleModifiers.Shift) == 0 && NotArrowKey(key))
-		{
-			scene.AnyKeyButArrow();
 		}
 		
 		// if (_scene.SoftMarking && NotArrowKey(key))

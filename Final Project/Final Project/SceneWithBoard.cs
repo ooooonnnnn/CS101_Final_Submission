@@ -21,6 +21,10 @@ public abstract class SceneWithBoard : Scene
 	
 	//Soft marking
 	private bool softMarking;
+	
+	//control parameters
+	protected bool canEditBoard = true;
+	
 	protected bool SoftMarking //changing soft marking mode updates a message near the board
 	{
 		get { return softMarking;}
@@ -142,7 +146,9 @@ public abstract class SceneWithBoard : Scene
 		}
 
 		Drawing.UpdateCursor(gameCursorX,gameCursorY, prevx, prevy);
-	    
+
+		if (!canEditBoard) return;
+		
 		if (SoftMarking)
 		{
 			UpdateCell(SoftMarkingMode.Item2);
@@ -159,6 +165,8 @@ public abstract class SceneWithBoard : Scene
 	
 	public override void Action1()
 	{
+		if (!canEditBoard) return;
+		
 		if (SoftMarking)
 			SoftMarking = false;
 		else
@@ -168,14 +176,16 @@ public abstract class SceneWithBoard : Scene
 	
 	public override void ActionShift1()
 	{
+		if (!canEditBoard) return;
+		
 		StartSoftMarking(CellState.Black);
 		EditorBoardChangeNotice();
 	}
 	
-	public override void AnyKeyButArrow()
-	{
-		SoftMarking = false;
-	}
+	// public override void AnyKeyButArrow()
+	// {
+	// 	SoftMarking = false;
+	// }
 
 	protected virtual void EditorBoardChangeNotice() { } //this is called whenever the user changes the board state in the editor scene
 

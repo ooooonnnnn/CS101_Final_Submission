@@ -42,6 +42,8 @@ public class Game : SceneWithBoard
     
 	public override void Action2()
 	{
+		if (!canEditBoard) return;
+		
 		if (SoftMarking)
 			SoftMarking = false;
 		else
@@ -50,8 +52,19 @@ public class Game : SceneWithBoard
 	
 	public override void ActionShift2()
     {
+	    if (!canEditBoard) return;
+	    
 	    StartSoftMarking(CellState.Dot);
     }
+	
+	public override void AnyKeyButArrow()
+	{
+		// SoftMarking = false;
+		if (isSolved)
+		{
+			sceneFinished = true;
+		}
+	}
 
 	private void ReadLevelFile(string path)
     {
@@ -124,7 +137,9 @@ public class Game : SceneWithBoard
 		    }
 	    }
 	    isSolved = true;
-	    sceneFinished = true;//this is temporary. I should end a state where the puzzle is solved but the scene is still ongoing
+	    canEditBoard = false;
+	    message = "Congratulations! Press any key to continue.";
+	    Drawing.UpdateMessage(message, msgLeft, msgTop);
 	    return true;
     }
 
