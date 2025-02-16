@@ -138,7 +138,7 @@ public class Game : SceneWithBoard
 	    }
 	    isSolved = true;
 	    canEditBoard = false;
-	    message = "Congratulations! Press any key to continue.";
+	    message = "Congratulations! \ud83e\udd20 Press any key to continue.";
 	    Drawing.UpdateMessage(message, msgLeft, msgTop);
 	    return true;
     }

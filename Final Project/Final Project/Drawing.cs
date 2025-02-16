@@ -8,14 +8,17 @@ public static class Drawing
 {
 	//This class handles drawing stuff on the screen
 	//The following symbols are used
-	public static string black = "@",
+	public static string black = "\u2588",
 		empty = " ",
 		hLine = "_",
-		hLineBold = "=",
-		vLine = ":",
+		hLineBox = "\u2501",
+		vLine = "\u254e",//┆ : ╎
 		vLineBold = "|",
-		corner = ".",
-		dot = "'",
+		cornerTopLeft = "\u250d",
+		cornerTopRight = "\u2511",//┑
+		cornerBottomLeft = "\u2516",
+		cornerBottomRight = "\u2519",
+		dot = "·",
 		rightArrow = ">";
 	//settings for drawing the board
 	private static int cellWidth = 2; //external width of each cell (if 3 than internal width is 2)
@@ -79,7 +82,7 @@ public static class Drawing
 		//draw first line of the board
 		//first make room for left clues
 		Console.Write(StrRepeat(empty, clueColWidth));
-		Console.WriteLine(corner + StrRepeat(hLine, cellWidth * boardWidth - 1) + corner);
+		Console.WriteLine(cornerTopLeft + StrRepeat(hLineBox, cellWidth * boardWidth - 1) + cornerTopRight);
 		
 		//draw board line by line. draw clues first
 		for (int i = 0; i < boardHeight; i++)
@@ -129,7 +132,7 @@ public static class Drawing
 						break;
 				}
 			}
-			//end with |
+			//end with bottom right corner
 			Console.WriteLine(vLineBold);
 			
 		}

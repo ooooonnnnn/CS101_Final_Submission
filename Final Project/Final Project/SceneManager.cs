@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Final_Project;
 
 using System.IO;
@@ -68,6 +70,7 @@ public static class SceneManager
 		//main scene loop
 		
 		//prepare console window
+		Console.OutputEncoding = Encoding.UTF8;
 		// Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
 		
 		//used inside the menu loop
