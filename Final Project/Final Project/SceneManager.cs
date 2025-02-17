@@ -1,7 +1,5 @@
 using System.Text;
-
 namespace Final_Project;
-
 using System.IO;
 
 public static class SceneManager
@@ -21,6 +19,7 @@ public static class SceneManager
 	
 	//menus write the selected option to this variable 
 	public static Menu.MenuOption selectedOption;
+	private static Menu menu;
 	
 	//to load a specific level from text file
 	private static string levelPath;
@@ -44,16 +43,18 @@ public static class SceneManager
 		new ($"Board Width: {editorWidth}",
 			dir =>
 			{
-				if (dir == Direction.Right && editorWidth < 100) editorWidth += 5;
+				if (dir == Direction.Right && editorWidth < 25) editorWidth += 5;
 				else if (dir == Direction.Left && editorWidth > 5) editorWidth -= 5;
 				levelEditorOpts[0].text = $"Board Width: {editorWidth}";
+				menu.updateGraphicsFlag = true;
 			}),
 		new ($"Board Height: {editorHeight}",
 			dir =>
 			{
-				if (dir == Direction.Right && editorHeight < 100) editorHeight += 5;
+				if (dir == Direction.Right && editorHeight < 25) editorHeight += 5;
 				else if (dir == Direction.Left && editorHeight > 5) editorHeight -= 5;
 				levelEditorOpts[1].text = $"Board Height: {editorHeight}";
+				menu.updateGraphicsFlag = true;
 			}),
 		new Menu.MenuOption("Start"),
 		
@@ -75,7 +76,6 @@ public static class SceneManager
 		
 		//used inside the menu loop
 		string title;
-		Menu menu;
 		List<Menu.MenuOption> levelSelectOpts;
 		//-------------------------------------main game loop: switch between scenes
 		while (true)
