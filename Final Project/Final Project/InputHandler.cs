@@ -44,6 +44,13 @@ public static class InputHandler
 				return;
 		}
 		
+		//escape key takes precedence to control keys
+		if (key == ConsoleKey.Escape)
+		{
+			scene.Escape();
+			return;
+		}
+		
 		//handle any key without shift held, except for arrow keys
 		if (NotArrowKey(key))
 		{

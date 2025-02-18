@@ -40,4 +40,6 @@ public abstract class Scene
 	public virtual void ActionShift2(){}
 
 	public virtual void AnyKeyButArrow(){}
+
+	public virtual void Escape(){}
 }
