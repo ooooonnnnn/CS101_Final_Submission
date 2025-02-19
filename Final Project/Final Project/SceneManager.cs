@@ -20,6 +20,7 @@ public static class SceneManager
 	//menus write the selected option to this variable 
 	public static Menu.MenuOption selectedOption;
 	private static Menu menu;
+	public static bool escapeFlag = false; // when scenes are exited with escape
 	
 	//to load a specific level from text file
 	private static string levelPath;

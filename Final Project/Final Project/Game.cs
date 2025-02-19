@@ -26,7 +26,7 @@ public class Game : SceneWithBoard
 	    boardState = new BoardState(boardWidth, boardHeight, rowClues, columnClues);
 	    //screen initialization
 	    Drawing.Initialize(boardState);
-	    message = "";
+	    baseMessage = "";
 	    //updates everything on screen 
 	    Drawing.Draw(boardState);
 	    gameCursorX = 0;
@@ -138,8 +138,8 @@ public class Game : SceneWithBoard
 	    }
 	    isSolved = true;
 	    canEditBoard = false;
-	    message = "Congratulations! \ud83e\udd20 Press any key to continue.";
-	    Drawing.UpdateMessage(message, msgLeft, msgTop);
+	    baseMessage = "Congratulations! \ud83e\udd20 Press any key to continue.";
+	    Drawing.UpdateMessage(baseMessage, msgLeft, msgTop);
 	    return true;
     }
 

@@ -10,14 +10,15 @@ public class LevelEditor : SceneWithBoard
 		boardState = new BoardState(boardWidth, boardHeight);
 		//screen initialization
 		Drawing.Initialize(boardState);
-		message = $"({InputHandler.MarkDot}): check if solvable. ";
+		baseMessage = $"({InputHandler.MarkDot}): check if solvable. ";
+		currentMessage = baseMessage;
 		//updates everything on screen 
 		Drawing.Draw(boardState);
 		gameCursorX = 0;
 		gameCursorY = 0;
 		Drawing.UpdateCursor(gameCursorX, gameCursorY);
 		Console.CursorVisible = true;
-		Drawing.UpdateMessage(message,msgLeft,msgTop);
+		Drawing.UpdateMessage(baseMessage,msgLeft,msgTop);
 	}
 
 	public void SaveLevel(string levelName)
@@ -71,7 +72,7 @@ public class LevelEditor : SceneWithBoard
 	protected override void EditorBoardChangeNotice()
 	{
 		isSolved = false;
-		Drawing.UpdateMessage(message, msgLeft, msgTop);
+		Drawing.UpdateMessage(currentMessage, msgLeft, msgTop);
 	}
 
 	CellState[,] attemptSolution; // used in CheckSolution and SolveLine
@@ -131,7 +132,7 @@ public class LevelEditor : SceneWithBoard
 		//update message
 		if (!solvable)
 		{
-			Drawing.UpdateMessage(message + "Not Solvable.", msgLeft, msgTop);
+			Drawing.UpdateMessage(baseMessage + "Not Solvable.", msgLeft, msgTop);
 		}
 		else
 		{

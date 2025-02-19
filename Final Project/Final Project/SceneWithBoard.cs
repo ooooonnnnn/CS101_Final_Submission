@@ -16,7 +16,7 @@ public abstract class SceneWithBoard : Scene
 	public static BoardState boardState;
 	
 	//graphics
-	protected string message; //a message to always be displayed while scene is active
+	protected string baseMessage, currentMessage; //a message to always be displayed while scene is active
 	protected int msgTop = 8, msgLeft = 3; //message coords relative to board top right corner
 	
 	//Soft marking
@@ -32,12 +32,14 @@ public abstract class SceneWithBoard : Scene
 			softMarking = value;
 			if (!value)
 			{
-				Drawing.UpdateMessage(message,msgLeft,msgTop);
+				currentMessage = baseMessage;
+				Drawing.UpdateMessage(currentMessage,msgLeft,msgTop);
 			}
 			else
 			{
 				string additional = $"Continuous marking: {SoftMarkingMode.Item1.ToString()} -> {SoftMarkingMode.Item2.ToString()}";
-				Drawing.UpdateMessage(message + additional,msgLeft,msgTop);
+				currentMessage = baseMessage + additional;
+				Drawing.UpdateMessage(currentMessage,msgLeft,msgTop);
 			}
 		}
 	}
@@ -152,6 +154,7 @@ public abstract class SceneWithBoard : Scene
 		if (SoftMarking)
 		{
 			UpdateCell(SoftMarkingMode.Item2);
+			EditorBoardChangeNotice();
 		}
 	}
 
