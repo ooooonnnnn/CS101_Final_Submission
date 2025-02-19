@@ -1,5 +1,5 @@
 /*
- - continuous marking message is busted on level editor
+ - on level scene: clue highlighting is busted 
  - add escape functionality
  - write readme
 
