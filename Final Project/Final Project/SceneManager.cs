@@ -20,7 +20,7 @@ public static class SceneManager
 	//menus write the selected option to this variable 
 	public static Menu.MenuOption selectedOption;
 	private static Menu menu;
-	public static bool escapeFlag = false; // when scenes are exited with escape
+	// public static bool escapeFlag = false; // when scenes are exited with escape
 	
 	//to load a specific level from text file
 	private static string levelPath;
@@ -30,7 +30,7 @@ public static class SceneManager
 	//to create a level editor with board width and height
 	public static int editorWidth = 10, editorHeight = 10;
 	
-	//Option lists for menus
+	//Define option lists for menus
 	private static List<Menu.MenuOption> mainOpts = new List<Menu.MenuOption>()
 	{
 		new Menu.MenuOption("Level Select"),
@@ -78,7 +78,7 @@ public static class SceneManager
 		//used inside the menu loop
 		string title;
 		List<Menu.MenuOption> levelSelectOpts;
-		//-------------------------------------main game loop: switch between scenes
+		//------------------------------main game loop: switch between scenes----------------------------------
 		while (true)
 		{
 			switch (nextSceneFlag)
@@ -125,7 +125,7 @@ public static class SceneManager
 					        $"-----------------------------------------------------------\n" +
 					        $"Arrow keys to move cursor\n" +
 					        $"({InputHandler.MarkBlack}): mark cell black, ({InputHandler.MarkDot}): mark cell with dot\n" +
-					        $"(Left Shift + {InputHandler.MarkBlack}/{InputHandler.MarkDot}): initiate continuous marking, and cancel with and key.";
+					        $"(Left Shift + {InputHandler.MarkBlack}/{InputHandler.MarkDot}): initiate continuous marking, and cancel with any key.";
 					menu = new Menu(title,tutorialOpts);
 					menu.StartScene();//this assigns a value to selectedOption
 					switch (selectedOption.text)

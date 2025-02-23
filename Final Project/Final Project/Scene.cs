@@ -8,9 +8,9 @@ public enum Direction
 }
 
 public abstract class Scene
-{
-	 // interactive scene in the game - either menu, game, or level editor
-	 protected bool sceneFinished = false;
+{ 
+	// interactive scene in the game - either menu, game, or level editor
+	protected bool sceneFinished = false;
 	
 	public void StartScene() // starts scene functionality
 	{
@@ -41,5 +41,5 @@ public abstract class Scene
 
 	public virtual void AnyKeyButArrow(){}
 
-	public virtual void Escape(){}
+	// public virtual void Escape(){}
 }
