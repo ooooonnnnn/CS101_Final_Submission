@@ -183,7 +183,7 @@ public class LevelEditor : SceneWithBoard
 		}
 		
 		//------------all possible solutions for the clue
-		List<CellState[]> solutions = new List<CellState[]>();
+		HashSet<CellState[]> solutions = new HashSet<CellState[]>();
 		int[] spaces = (new int[clue.Length]).Select((_, i) => i > 0 ? 1 : 0).ToArray(); // the number of spaces before each run of blacks in the solution
 		bool moreSolutions;
 		do
@@ -225,7 +225,7 @@ public class LevelEditor : SceneWithBoard
 		} while (moreSolutions);
 		
 		//remove solutions that don't fit the current state of the solution
-		solutions.RemoveAll(sol => sol.Zip(currentLineSolution).Any(pairCells =>
+		solutions.RemoveWhere(sol => sol.Zip(currentLineSolution).Any(pairCells =>
 			CellStateUtilities.UnequalAndNotUnkown(pairCells.First, pairCells.Second)));
 		
 		//intersect all remaining solutions to find certain black cells and certain dot cells
