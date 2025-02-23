@@ -21,10 +21,24 @@ public class LevelEditor : SceneWithBoard
 		Drawing.UpdateMessage(baseMessage,msgLeft,msgTop);
 	}
 
-	public void SaveLevel(string levelName)
+	public bool SaveLevel(string levelName)
 	{
 		//saves the boardstate into a new file called levelname
-		StreamWriter sw = File.CreateText($"{levelName}.txt");
+		if (levelName.Length == 0) return false;
+		StreamWriter sw = null;
+		try
+		{
+			sw = File.CreateText($"{levelName}.txt");
+		}
+		catch (Exception e)
+		{
+			if (sw != null)
+			{
+				sw.Close();
+			}
+			return false;
+		}
+		
 		for (int i = 0; i < boardHeight; i++)
 		{
 			for (int j = 0; j < boardWidth; j++)
@@ -43,6 +57,8 @@ public class LevelEditor : SceneWithBoard
 		}
 
 		sw.Close();
+
+		return true;
 	}
 
 	public override void Action2()
@@ -59,11 +75,14 @@ public class LevelEditor : SceneWithBoard
 			Console.Clear();
 			Console.Write("New level name: ");
 			string? levelName;
-			do
+			while(true)
 			{
 				levelName = Console.ReadLine();
-			} while (levelName.Length == 0);
-			SaveLevel(levelName);
+				if (SaveLevel(levelName))
+				{
+					break;
+				}
+			}
 			//finish scene
 			sceneFinished = true;
 		}
