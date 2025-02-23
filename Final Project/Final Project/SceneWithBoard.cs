@@ -58,51 +58,83 @@ public abstract class SceneWithBoard : Scene
 		columnClues = new int[boardWidth][];
 		for (int i = 0; i < boardWidth; i++)
 		{
-			List<int> newClues = new(); //running list of this columns clues (from end to beginning)
-			int currentClue = 0; //keeps track of the latest parsed clue
-			for (int j = boardHeight-1; j >= 0; j--)
-			{
-				if (solution[j,i] == CellState.Black)
-				{
-					currentClue++;
-				}
-				else if (currentClue > 0)
-				{
-					newClues.Add(currentClue);
-					currentClue = 0;
-				}
-			}
-			if (currentClue > 0)
-			{
-				newClues.Add(currentClue);
-			}
-			columnClues[i] = newClues.ToArray();
+			// List<int> newClues = new(); //running list of this columns clues (from end to beginning)
+			// int currentClue = 0; //keeps track of the latest parsed clue
+			// for (int j = boardHeight-1; j >= 0; j--)
+			// {
+			// 	if (solution[j,i] == CellState.Black)
+			// 	{
+			// 		currentClue++;
+			// 	}
+			// 	else if (currentClue > 0)
+			// 	{
+			// 		newClues.Add(currentClue);
+			// 		currentClue = 0;
+			// 	}
+			// }
+			// if (currentClue > 0)
+			// {
+			// 	newClues.Add(currentClue);
+			// }
+			columnClues[i] = CalculateClue(i,0);
 		}
 	    
 		//calculate row clues
 		rowClues = new int[boardHeight][];
 		for (int i = 0; i < boardHeight; i++)
 		{
-			List<int> newClues = new(); //running list of this row's clues (from end to beginning)
-			int currentClue = 0; //keeps track of the latest parsed clue
-			for (int j = boardWidth-1; j >= 0; j--)
-			{
-				if (solution[i,j] == CellState.Black)
-				{
-					currentClue++;
-				}
-				else if (currentClue > 0)
-				{
-					newClues.Add(currentClue);
-					currentClue = 0;
-				}
-			}
-			if (currentClue > 0)
-			{
-				newClues.Add(currentClue);
-			}
-			rowClues[i] = newClues.ToArray();
+			// List<int> newClues = new(); //running list of this row's clues (from end to beginning)
+			// int currentClue = 0; //keeps track of the latest parsed clue
+			// for (int j = boardWidth-1; j >= 0; j--)
+			// {
+			// 	if (solution[i,j] == CellState.Black)
+			// 	{
+			// 		currentClue++;
+			// 	}
+			// 	else if (currentClue > 0)
+			// 	{
+			// 		newClues.Add(currentClue);
+			// 		currentClue = 0;
+			// 	}
+			// }
+			// if (currentClue > 0)
+			// {
+			// 	newClues.Add(currentClue);
+			// }
+			rowClues[i] = CalculateClue(i,1);
 		}
+	}
+
+	protected int[] CalculateClue(int lineIndex, int dimension)
+	{
+		//Calculates a clue for a given line from dimension dimension and index lineIndex
+		if (dimension != 0 && dimension != 1)
+		{
+			throw new ArgumentException("dimension must be 0 or 1");
+		}
+		CellState[] solutionSlice = new CellState[solution.GetLength(dimension)]; //relevant row or column from solution
+		solutionSlice = solutionSlice.Select((_, i) => dimension == 0 ? solution[i,lineIndex] : solution[lineIndex,i]).ToArray();
+		
+		List<int> clue = new(); //running list of this columns clues (from end to beginning)
+		int currentClue = 0; //keeps track of the latest-parsed part of the clue
+		for (int j = solutionSlice.Length-1; j >= 0; j--)
+		{
+			if (solutionSlice[j] == CellState.Black)
+			{
+				currentClue++;
+			}
+			else if (currentClue > 0)
+			{
+				clue.Add(currentClue);
+				currentClue = 0;
+			}
+		}
+		if (currentClue > 0)
+		{
+			clue.Add(currentClue);
+		}
+
+		return clue.ToArray();
 	}
 	
 	protected void UpdateCell(CellState inputState)
