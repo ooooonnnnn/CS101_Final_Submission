@@ -21,7 +21,7 @@ public class LevelEditor : SceneWithBoard
 		Drawing.UpdateMessage(baseMessage,msgLeft,msgTop);
 	}
 
-	public bool SaveLevel(string levelName)
+	private bool SaveLevel(string levelName)
 	{
 		//saves the boardstate into a new file called levelname
 		if (levelName.Length == 0) return false;
