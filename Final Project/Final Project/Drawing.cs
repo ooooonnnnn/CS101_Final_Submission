@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
-
 namespace Final_Project;
 using System;
 using System.Linq;
@@ -8,7 +6,7 @@ public static class Drawing
 {
 	//This class handles drawing stuff on the screen
 	//The following symbols are used
-	public static string black = "\u2588",
+	private static string black = "\u2588",
 		empty = " ",
 		hLine = "_",
 		hLineBox = "\u2501",
@@ -29,11 +27,11 @@ public static class Drawing
 	public static void Initialize(BoardState boardState)
 	{
 		//imports the board size from boardState and calculates the space needed for the clues
-		boardWidth = boardState.Width;
-		boardHeight = boardState.Height;
+		boardWidth = boardState.width;
+		boardHeight = boardState.height;
 
-		clueRowHeight = boardState.ColumnClues.Max(c => c != null ? c.Length : 0); //one row per clue
-		maxRowClues = boardState.RowClues.Max(c => c != null ? c.Length : 0); //how many clues are on the left, max?
+		clueRowHeight = boardState.columnClues.Max(c => c != null ? c.Length : 0); //one row per clue
+		maxRowClues = boardState.rowClues.Max(c => c != null ? c.Length : 0); //how many clues are on the left, max?
 		clueColWidth = maxRowClues * cellWidth; //one cell per clue
 	}
 
@@ -67,7 +65,7 @@ public static class Drawing
 				string clue;
 				try
 				{
-					clue = boardState.ColumnClues[j][clueRowHeight - 1 - i].ToString();
+					clue = boardState.columnClues[j][clueRowHeight - 1 - i].ToString();
 					PrintClueCell(clue, highlight, false);
 				}
 				catch
@@ -94,7 +92,7 @@ public static class Drawing
 			{
 				try
 				{
-					string clue = boardState.RowClues[i][maxRowClues - 1 - j].ToString();
+					string clue = boardState.rowClues[i][maxRowClues - 1 - j].ToString();
 					PrintClueCell(clue, highlight, true);
 				}
 				catch
@@ -118,7 +116,7 @@ public static class Drawing
 				}
 				
 				//draw the cell content
-				switch (boardState.Cells[i,j])
+				switch (boardState.cells[i,j])
 				{
 					case CellState.Unknown:
 						if ((i + 1) % 5 == 0) Console.Write(StrRepeat(hLine, cellWidth - 1));
@@ -224,7 +222,7 @@ public static class Drawing
 			string clue;
 			try
 			{
-				clue = Game.boardState.ColumnClues[prevCol][clueRowHeight - 1 - i].ToString();
+				clue = Game.boardState.columnClues[prevCol][clueRowHeight - 1 - i].ToString();
 				PrintClueCell(clue, false, false);
 			}
 			catch
@@ -241,7 +239,7 @@ public static class Drawing
 			string clue;
 			try
 			{
-				clue = Game.boardState.RowClues[prevRow][maxRowClues - 1 - i].ToString();
+				clue = Game.boardState.rowClues[prevRow][maxRowClues - 1 - i].ToString();
 				PrintClueCell(clue, false, true);
 			}
 			catch
@@ -258,7 +256,7 @@ public static class Drawing
 			string clue;
 			try
 			{
-				clue = Game.boardState.ColumnClues[column][clueRowHeight - 1 - i].ToString();
+				clue = Game.boardState.columnClues[column][clueRowHeight - 1 - i].ToString();
 				PrintClueCell(clue, true, false);
 			}
 			catch
@@ -275,7 +273,7 @@ public static class Drawing
 			string clue;
 			try
 			{
-				clue = Game.boardState.RowClues[row][maxRowClues - 1 - i].ToString();
+				clue = Game.boardState.rowClues[row][maxRowClues - 1 - i].ToString();
 				PrintClueCell(clue, true, true);
 			}
 			catch

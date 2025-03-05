@@ -1,12 +1,11 @@
 namespace Final_Project;
-using System.Linq;
 
 public class BoardState
 {
 	//everything about the board: size, cell markings, clues and clue satisfaction
-	public int Width, Height;
-	public CellState[,] Cells; //marking state of the cells in the board
-	public int[][] RowClues, ColumnClues;
+	public int width, height;
+	public CellState[,] cells; //marking state of the cells in the board
+	public int[][] rowClues, columnClues;
 	/* the clues that are drawn above the rows and columns
 	   the first entry of each sub-array of clues is the right-most/bottom-most one. ex. if the column clues are [[1 2],[1 2 3]] the clues
 	   will look like
@@ -38,11 +37,11 @@ public class BoardState
 			throw new ArgumentException("Maximum board size is 100X100.");
 		}
 		
-		Width = width;
-		Height = height;
-		Cells = new CellState[height, width];
-		RowClues = rowClues;
-		ColumnClues = columnClues;
+		this.width = width;
+		this.height = height;
+		cells = new CellState[height, width];
+		this.rowClues = rowClues;
+		this.columnClues = columnClues;
 	}
 
 }

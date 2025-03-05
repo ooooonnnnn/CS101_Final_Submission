@@ -130,7 +130,7 @@ public class Game : SceneWithBoard
 	    {
 		    for (int j = 0; j < boardWidth; j++)
 		    {
-			    if (boardState.Cells[i,j] == CellState.Black ^ solution[i,j] == CellState.Black)
+			    if (boardState.cells[i,j] == CellState.Black ^ solution[i,j] == CellState.Black)
 			    {
 				    return false;
 			    }

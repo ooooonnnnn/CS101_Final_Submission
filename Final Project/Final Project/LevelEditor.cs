@@ -43,7 +43,7 @@ public class LevelEditor : SceneWithBoard
 		{
 			for (int j = 0; j < boardWidth; j++)
 			{
-				char charToWrite = boardState.Cells[i, j] == CellState.Black ? '1' : '0';
+				char charToWrite = boardState.cells[i, j] == CellState.Black ? '1' : '0';
 				sw.Write(charToWrite);
 			}
 
@@ -99,7 +99,7 @@ public class LevelEditor : SceneWithBoard
 	{
 		//check whether the user provided drawing is solvable given the clues that define it
 		//create clues
-		solution = boardState.Cells;
+		solution = boardState.cells;
 		CalculateClues();
 		
 		//solve line by line until done
@@ -140,7 +140,7 @@ public class LevelEditor : SceneWithBoard
 		} while (changed);
 		
 		//check if the solution is identical to the board state
-		bool solvable = CellStateUtilities.BlacksMatch(attemptSolution,boardState.Cells);
+		bool solvable = CellStateUtilities.BlacksMatch(attemptSolution,boardState.cells);
 		UpdateMessageSolvable(solvable);
 		
 		return solvable;
@@ -167,7 +167,7 @@ public class LevelEditor : SceneWithBoard
 		//works by intersecting all possible solutions for this line with both the clue and the current state of the solution
 
 		//------------initialization
-		int lineLength = boardState.Cells.GetLength(dimension);
+		int lineLength = boardState.cells.GetLength(dimension);
 		CellState[] currentLineSolution = new CellState[lineLength];
 		for (int i = 0; i < lineLength; i++)
 		{

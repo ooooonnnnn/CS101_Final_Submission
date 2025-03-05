@@ -144,14 +144,14 @@ public abstract class SceneWithBoard : Scene
 		 else, the new state is the input state
 		 */
 		//soft mark only updates cells with SoftMarkingMode.Item1
-		if (SoftMarking && boardState.Cells[gameCursorY,gameCursorX] != SoftMarkingMode.Item1)
+		if (SoftMarking && boardState.cells[gameCursorY,gameCursorX] != SoftMarkingMode.Item1)
 		{
 			return;
 		}
 	    
-		CellState current = boardState.Cells[gameCursorY, gameCursorX];
-		boardState.Cells[gameCursorY, gameCursorX] = current == inputState ? CellState.Unknown : inputState;
-		Drawing.UpdateBoardCell(boardState.Cells[gameCursorY,gameCursorX]);
+		CellState current = boardState.cells[gameCursorY, gameCursorX];
+		boardState.cells[gameCursorY, gameCursorX] = current == inputState ? CellState.Unknown : inputState;
+		Drawing.UpdateBoardCell(boardState.cells[gameCursorY,gameCursorX]);
 	    
 		//call for some function (in Game this is check solution)
 		OnUpdateCell();
@@ -192,7 +192,7 @@ public abstract class SceneWithBoard : Scene
 
 	protected void StartSoftMarking(CellState targetState)
 	{
-		SoftMarkingMode.Item1 = boardState.Cells[gameCursorY, gameCursorX]; 
+		SoftMarkingMode.Item1 = boardState.cells[gameCursorY, gameCursorX]; 
 		SoftMarkingMode.Item2 = targetState == SoftMarkingMode.Item1 ? CellState.Unknown : targetState; 
 		SoftMarking = true; 
 		UpdateCell(targetState);
